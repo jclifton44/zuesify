@@ -34,7 +34,7 @@ import android.view.View.OnClickListener;
 
 
 public class Secondary_Activity extends Activity {
-    public static DrawClass thisDC; 
+    public static DrawClass drawSurface;
     public static Secondary_Activity SA = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +48,8 @@ public class Secondary_Activity extends Activity {
 
 
         //surface_view = new SurfaceView(getApplicationContext());
-        DrawClass thisDC = new DrawClass(getApplicationContext(), (SurfaceView)findViewById(R.id.surface_viewff));
-        Secondary_Activity.thisDC = thisDC;
+        DrawClass drawSurface = new DrawClass(getApplicationContext(), (SurfaceView)findViewById(R.id.surface_viewff));
+        Secondary_Activity.drawSurface = drawSurface;
         //addContentView(surface_view, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
    /*     try {
         	mCamera.setPreviewDisplay(surface_holder);  
@@ -63,7 +63,8 @@ public class Secondary_Activity extends Activity {
         button.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
             	//sh_callback.surfaceDestroyed(surface_holder);
-            	Secondary_Activity.thisDC.switchCams();
+            	Secondary_Activity.drawSurface.switchCams();
+                //Secondary_Activity.drawSurface.nextCameraSize(Secondary_Activity.drawSurface.mCamera);
             }
 
 
@@ -82,8 +83,8 @@ public class Secondary_Activity extends Activity {
     		Log.d("In Start","START");
     		// Release the Camera because we don't need it when paused
     		// and other activities might need to use it.
-    		if(thisDC != null){
-    		//	thisDC.startCamera();
+    		if(drawSurface != null){
+    		//	drawSurface.startCamera();
     		}	
     	}
         @Override
@@ -93,10 +94,10 @@ public class Secondary_Activity extends Activity {
             // Release the Camera because we don't need it when paused
             // and other activities might need to use it.
             super.onPause();
-            if(thisDC != null){
-            	thisDC.stopCamera();
+            if(drawSurface != null){
+            	drawSurface.stopCamera();
             }
-            //thisDC = null;
+            //drawSurface = null;
         }
         @Override
         protected void onStop() {
@@ -105,15 +106,15 @@ public class Secondary_Activity extends Activity {
             // Save the note's current draft, because the activity is stopping
             // and we want to be sure the current note progress isn't lost.
 
-            if(thisDC != null){
-            	thisDC.stopCamera();
+            if(drawSurface != null){
+            	drawSurface.stopCamera();
             }
         }
         @Override
         protected void onDestroy() {
             super.onDestroy();  // Always call the superclass method first
-            if(thisDC != null) {
-            	thisDC.stopCamera();
+            if(drawSurface != null) {
+            	drawSurface.stopCamera();
             }
             Log.d("In Destroy","DESTROY");
             //
@@ -124,11 +125,11 @@ public class Secondary_Activity extends Activity {
             super.onRestart();  // Always call the superclass method first
             
             Log.d("In Restart","RESTART");
-            if (thisDC != null && thisDC.mCamera == null) {
-             //   thisDC.startCamera(); // Local method to handle camera init
+            if (drawSurface != null && drawSurface.mCamera == null) {
+             //   drawSurface.startCamera(); // Local method to handle camera init
             } else {
             	if(((SurfaceView)findViewById(R.id.surface_viewff)) == null) {Log.d("OMG","OMG");}
-            //	thisDC = new DrawClass(getApplicationContext(), (SurfaceView)findViewById(R.id.surface_viewff));
+            //	drawSurface = new DrawClass(getApplicationContext(), (SurfaceView)findViewById(R.id.surface_viewff));
             }
                 
                 // Activity being restarted from stopped state    
@@ -139,16 +140,16 @@ public class Secondary_Activity extends Activity {
             Log.d("In Resume","RESUME");
 
             // Get the Camera instance as the activity achieves full user focus
-            if (thisDC != null) {
-               // thisDC.startCamera(); // Local method to handle camera init
+            if (drawSurface != null) {
+               // drawSurface.startCamera(); // Local method to handle camera init
            //     try {
-    			//	thisDC.mCamera.setPreviewDisplay(thisDC.surface_holder);
-    			//	thisDC.mCamera.startPreview();
+    			//	drawSurface.mCamera.setPreviewDisplay(drawSurface.surface_holder);
+    			//	drawSurface.mCamera.startPreview();
     			//} catch (IOException e) {
     				// TODO Auto-generated catch block
     			//	e.printStackTrace();
     		//	}
-            } else if(thisDC == null) {
+            } else if(drawSurface == null) {
            // 	new DrawClass(getApplicationContext(), (SurfaceView)findViewById(R.id.surface_viewff));
             }
         }
