@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.hardware.camera2.*;
 public class DrawClass extends SurfaceView implements SurfaceHolder.Callback, Runnable{
 	public static SurfaceView surface_view;
+    static Canvas mCanvas;
     CameraManager cm;
 	Camera mCamera = null;
     public static ImageView trackingImage;
@@ -78,12 +79,22 @@ public class DrawClass extends SurfaceView implements SurfaceHolder.Callback, Ru
             @Override
             public void onFaceDetection(Face[] faces, Camera c) {
                 if(faces.length > 0) {
-                    // draw(canvas);
-                       // Log.d("Tracking Image" + faces[0].rect.flattenToString(), "Is Null");
+                    Canvas can;
+                   // if((can = DrawClass.surface_holder.lockCanvas()) == null) {
+                   // Log.d("Can", "is Null");
+                   // } else {
+                   // surface_holder.unlockCanvasAndPost(can);
+                   // }
+                   // draw(canvas);
+                   // Log.d("Tracking Image" + faces[0].rect.flattenToString(), "Is Null");
 
                     if (faces[0].rect != null) {
-                        DrawClass.trackingImage.setX(faces[0].rect.centerX());
-                        DrawClass.trackingImage.setY(faces[0].rect.centerY());
+                         //DrawClass.trackingImage.setX(400);
+                        
+                        DrawClass.trackingImage.setX((int)-(faces[0].rect.centerX() / 1.5)+400);
+                        DrawClass.trackingImage.setY((int)(faces[0].rect.centerY()/1.9)+360);
+                        Log.d(String.valueOf(faces[0].rect.centerX()),String.valueOf(faces[0].rect.centerY()));
+
                     }
 
 
@@ -95,11 +106,12 @@ public class DrawClass extends SurfaceView implements SurfaceHolder.Callback, Ru
         };
 
         c.setFaceDetectionListener(listener);
+
         c.startFaceDetection();
     }
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-    		Log.d("surface activity", "CREATED");
+        Log.d("surface activity", "CREATED");
 
         	if(findFrontFacingCamera() < 0){
         		mCamera = Camera.open();
@@ -112,6 +124,8 @@ public class DrawClass extends SurfaceView implements SurfaceHolder.Callback, Ru
         		camID = findFrontFacingCamera();
             }
         resizeResolutionKitKat(mCamera);
+        mCanvas = surface_holder.lockCanvas();
+        surface_holder.unlockCanvasAndPost(mCanvas);
         startFaceDetection(mCamera);
 
 
@@ -165,6 +179,8 @@ public class DrawClass extends SurfaceView implements SurfaceHolder.Callback, Ru
 	           }
 
             mCamera.startPreview();
+            mCanvas = surface_holder.lockCanvas();
+            surface_holder.unlockCanvasAndPost(mCanvas);
             startFaceDetection(mCamera);
 
         }
@@ -210,6 +226,7 @@ public class DrawClass extends SurfaceView implements SurfaceHolder.Callback, Ru
            }
 
         mCamera.startPreview();
+
         startFaceDetection(mCamera);
 
     }
