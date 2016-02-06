@@ -46,9 +46,9 @@ public class DrawClass extends SurfaceView implements SurfaceHolder.Callback, Ru
             }
 
         }
-
-
-		//surface_view = (SurfaceView)findViewById(R.id.surface_viewff);
+		//if((surface_view = (SurfaceView)findViewById(R.id.surface_viewff)) == null){
+        //    Log.d("SurfaceView","Returned Null");
+        //}
 		DrawClass.surface_view = surface_view;
         if (surface_holder == null) {
         	surface_holder = surface_view.getHolder();
@@ -90,7 +90,7 @@ public class DrawClass extends SurfaceView implements SurfaceHolder.Callback, Ru
 
                     if (faces[0].rect != null) {
                          //DrawClass.trackingImage.setX(400);
-                        
+
                         DrawClass.trackingImage.setX((int)-(faces[0].rect.centerX() / 1.5)+400);
                         DrawClass.trackingImage.setY((int)(faces[0].rect.centerY()/1.9)+360);
                         Log.d(String.valueOf(faces[0].rect.centerX()),String.valueOf(faces[0].rect.centerY()));
@@ -115,17 +115,29 @@ public class DrawClass extends SurfaceView implements SurfaceHolder.Callback, Ru
 
         	if(findFrontFacingCamera() < 0){
         		mCamera = Camera.open();
-
+                Log.d("found front facing -1", "-1");
         		camID = -1;
         		front_facing_camera = false;
         	} else {
+                Log.d("Found front camera", "" + findFrontFacingCamera());
         		front_facing_camera = true;
         		mCamera = Camera.open(findFrontFacingCamera());
         		camID = findFrontFacingCamera();
             }
         resizeResolutionKitKat(mCamera);
-        mCanvas = surface_holder.lockCanvas();
-        surface_holder.unlockCanvasAndPost(mCanvas);
+//        mCanvas = surface_holder.lockCanvas();
+//        surface_holder.unlockCanvasAndPost(mCanvas);
+        if (surface_holder == null) {
+            surface_holder = surface_view.getHolder();
+        }
+        surface_holder.addCallback(this);
+        try {
+            mCamera.setPreviewDisplay(surface_holder);
+        } catch (IOException exception) {
+            Log.d("ERROR","THIS HAPPENED");
+            stopCamera();
+        }
+        mCamera.startPreview();
         startFaceDetection(mCamera);
 
 
@@ -165,7 +177,7 @@ public class DrawClass extends SurfaceView implements SurfaceHolder.Callback, Ru
 	    		mCamera = Camera.open();
 	    	}
             resizeResolutionKitKat(mCamera);
-            surface_view = (SurfaceView)findViewById(R.id.surface_viewff);
+            //surface_view = (SurfaceView)findViewById(R.id.surface_viewff);
 	        //addContentView(surface_view, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 	
 	        if (surface_holder == null) {
@@ -211,7 +223,7 @@ public class DrawClass extends SurfaceView implements SurfaceHolder.Callback, Ru
     	}
         resizeResolutionKitKat(mCamera);
 
-        surface_view = (SurfaceView)findViewById(R.id.surface_viewff);
+        //surface_view = (SurfaceView)findViewById(R.id.surface_viewff);
         //addContentView(surface_view, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 
         if (surface_holder == null) {
