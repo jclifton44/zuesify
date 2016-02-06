@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
@@ -40,12 +41,12 @@ public class Secondary_Activity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
     	
         super.onCreate(savedInstanceState);
-        Log.d("InNewAc","Yep");
+        Log.d("InNewAc", "Yep");
 		ActionBar actionBar = getActionBar();
 		actionBar.hide();
 		setContentView(R.layout.activity_secondary_);
         getWindow().setFormat(PixelFormat.TRANSLUCENT);
-
+        RelativeLayout cameraScreen = (RelativeLayout) findViewById(R.id.cameraLayout);
 
         //surface_view = new SurfaceView(getApplicationContext());
         DrawClass drawSurface = new DrawClass(getApplicationContext(), (SurfaceView)findViewById(R.id.surface_viewff));
@@ -59,11 +60,20 @@ public class Secondary_Activity extends Activity {
             mCamera.release();  
             mCamera = null;  
         }*/
+        ImageView image;
+        image = new ImageView(getApplicationContext());
+        image.setImageDrawable(getResources().getDrawable(R.drawable.ic_launcher));
+        DrawClass.trackingImage = image;
+
+        image.setX(400);
+        image.setY(400);
+        cameraScreen.addView(image);
+
         ImageView button = (ImageView) findViewById(R.id.iv2);
         button.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-            	//sh_callback.surfaceDestroyed(surface_holder);
-            	Secondary_Activity.drawSurface.switchCams();
+                //sh_callback.surfaceDestroyed(surface_holder);
+                Secondary_Activity.drawSurface.switchCams();
                 //Secondary_Activity.drawSurface.nextCameraSize(Secondary_Activity.drawSurface.mCamera);
             }
 

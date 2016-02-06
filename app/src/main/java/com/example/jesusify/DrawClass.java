@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.hardware.Camera;
 import android.hardware.Camera.FaceDetectionListener;
@@ -22,7 +23,8 @@ public class DrawClass extends SurfaceView implements SurfaceHolder.Callback, Ru
 	public static SurfaceView surface_view;
     CameraManager cm;
 	Camera mCamera = null;
-	private boolean locker=true;
+    public static ImageView trackingImage;
+    private boolean locker=true;
 	private Thread thread;
     SurfaceHolder.Callback sh_ob = null;
     static SurfaceHolder surface_holder        = null;
@@ -76,17 +78,14 @@ public class DrawClass extends SurfaceView implements SurfaceHolder.Callback, Ru
             @Override
             public void onFaceDetection(Face[] faces, Camera c) {
                 if(faces.length > 0) {
-                   // draw(canvas);
-                    if(surface_holder.getSurface().isValid()){
-                        Canvas canvas = surface_holder.lockCanvas();
+                    // draw(canvas);
+                       // Log.d("Tracking Image" + faces[0].rect.flattenToString(), "Is Null");
 
-
-                        if (canvas != null) {
-                            draw(canvas);
-
-                            surface_holder.unlockCanvasAndPost(canvas);
-                        }
+                    if (faces[0].rect != null) {
+                        DrawClass.trackingImage.setX(faces[0].rect.centerX());
+                        DrawClass.trackingImage.setY(faces[0].rect.centerY());
                     }
+
 
                     Log.d("Found a Face", "!");
 
