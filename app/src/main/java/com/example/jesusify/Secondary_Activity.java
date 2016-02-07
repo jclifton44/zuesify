@@ -35,13 +35,18 @@ import android.view.View.OnClickListener;
 
 
 public class Secondary_Activity extends Activity {
-    public static DrawClass drawSurface;
+    Camera mCamera = null;
+    private static int camID = -1;
+    static boolean front_facing_camera = false;
+
+    public static SurfaceView drawSurface;
+    public static SurfaceHolder drawHolder;
     public static Secondary_Activity SA = null;
+    public static CameraClass customCamera;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-    	
         super.onCreate(savedInstanceState);
-        Log.d("InNewAc", "Yep");
+        Log.d("In Create","CREATE");
 		ActionBar actionBar = getActionBar();
 		actionBar.hide();
 		setContentView(R.layout.activity_secondary_);
@@ -49,31 +54,41 @@ public class Secondary_Activity extends Activity {
         RelativeLayout cameraScreen = (RelativeLayout) findViewById(R.id.cameraLayout);
 
         //surface_view = new SurfaceView(getApplicationContext());
-        DrawClass drawSurface = new DrawClass(getApplicationContext(), (SurfaceView)findViewById(R.id.surface_viewff));
-        Secondary_Activity.drawSurface = drawSurface;
-        //addContentView(surface_view, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
-   /*     try {
-        	mCamera.setPreviewDisplay(surface_holder);  
-        	Log.d("ONCREATE","CAMERA");
-        } catch (IOException exception) { 
-        	Log.d("ONCREATE","CAMERA");
-            mCamera.release();  
-            mCamera = null;  
-        }*/
+        drawSurface = (SurfaceView)findViewById(R.id.surface_viewff);
+        drawHolder = drawSurface.getHolder();
+        drawHolder.addCallback(new SurfaceHolder.Callback() {
+            @Override
+            public void surfaceDestroyed(SurfaceHolder holder) {
+                Log.d("surface activity", "A-DESTROYED");
+            }
+
+            @Override
+            public void surfaceCreated(SurfaceHolder holder) {
+                Log.d("surface activity", "A-CREATED");
+                if(customCamera == null) {
+                    customCamera = CameraClass.getCustomCameraInstance(drawHolder, getApplicationContext());
+                }
+            }
+
+            @Override
+            public void surfaceChanged(SurfaceHolder holder, int format, int width,
+                                       int height) {
+                Log.d("surface activity", "A-CHANGED");
+            }
+
+        });
+
         ImageView image;
         image = new ImageView(getApplicationContext());
         image.setImageDrawable(getResources().getDrawable(R.drawable.ic_launcher));
-        DrawClass.trackingImage = image;
+        CameraClass.trackingImage = image;
 
-        image.setX(400);
-        image.setY(400);
         cameraScreen.addView(image);
-
         ImageView button = (ImageView) findViewById(R.id.iv2);
         button.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 //sh_callback.surfaceDestroyed(surface_holder);
-                Secondary_Activity.drawSurface.switchCams();
+                Secondary_Activity.customCamera.switchCams();
                 //Secondary_Activity.drawSurface.nextCameraSize(Secondary_Activity.drawSurface.mCamera);
             }
 
@@ -91,78 +106,52 @@ public class Secondary_Activity extends Activity {
     	public void onStart() {
     		super.onStart();  // Always call the superclass method first
     		Log.d("In Start","START");
-    		// Release the Camera because we don't need it when paused
-    		// and other activities might need to use it.
-    		if(drawSurface != null){
-    		//	drawSurface.startCamera();
-    		}	
     	}
         @Override
         public void onPause() {
             super.onPause();  // Always call the superclass method first
-            Log.d("In Pause","PAUSE");
+            Log.d("In Pause", "PAUSE");
+            //drawSurface.stopCamera();
+            if(isFinishing()) {
+                Log.d("is finishing true", "true");
+            } else {
+
+                Log.d("is finishing fals", "false");
+            }
             // Release the Camera because we don't need it when paused
             // and other activities might need to use it.
-            super.onPause();
-            if(drawSurface != null){
-            	drawSurface.stopCamera();
-            }
+          //  drawSurface = null;
+            //if(drawSurface != null){
+            	//drawSurface.stopCamera();
+            //}
             //drawSurface = null;
         }
         @Override
         protected void onStop() {
             super.onStop();  // Always call the superclass method first
             Log.d("In Stop","STOP");
-            // Save the note's current draft, because the activity is stopping
-            // and we want to be sure the current note progress isn't lost.
-
-            if(drawSurface != null){
-            	drawSurface.stopCamera();
-            }
         }
         @Override
         protected void onDestroy() {
             super.onDestroy();  // Always call the superclass method first
-            if(drawSurface != null) {
-            	drawSurface.stopCamera();
-            }
             Log.d("In Destroy","DESTROY");
-            //
+
 
         }
         @Override
         protected void onRestart() {
-            super.onRestart();  // Always call the superclass method first
-            
+            super.onRestart();  // Always call the superclass method firs
             Log.d("In Restart","RESTART");
-            if (drawSurface != null && drawSurface.mCamera == null) {
-             //   drawSurface.startCamera(); // Local method to handle camera init
-            } else {
-            	if(((SurfaceView)findViewById(R.id.surface_viewff)) == null) {Log.d("OMG","OMG");}
-            //	drawSurface = new DrawClass(getApplicationContext(), (SurfaceView)findViewById(R.id.surface_viewff));
-            }
-                
-                // Activity being restarted from stopped state    
+
         }
         @Override
         public void onResume() {
             super.onResume();  // Always call the superclass method first
-            Log.d("In Resume","RESUME");
-
-            // Get the Camera instance as the activity achieves full user focus
-            if (drawSurface != null) {
-               // drawSurface.startCamera(); // Local method to handle camera init
-           //     try {
-    			//	drawSurface.mCamera.setPreviewDisplay(drawSurface.surface_holder);
-    			//	drawSurface.mCamera.startPreview();
-    			//} catch (IOException e) {
-    				// TODO Auto-generated catch block
-    			//	e.printStackTrace();
-    		//	}
-            } else if(drawSurface == null) {
-           // 	new DrawClass(getApplicationContext(), (SurfaceView)findViewById(R.id.surface_viewff));
-            }
+            Log.d("In Resume", "RESUME");
         }
+
+
+
 
 
         
