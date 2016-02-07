@@ -55,7 +55,6 @@ public class CameraClass {
 
         if (findFrontFacingCamera() < 0) {
             mcam = Camera.open();
-            Log.d("found front facing -1", "-1");
             camID = -1;
             front_facing_camera = false;
         } else {
@@ -63,15 +62,12 @@ public class CameraClass {
                 mcam = Camera.open(findBackFacingCamera());
                 camID = findBackFacingCamera();
                 front_facing_camera = false;
-
             } else {
                 mcam = Camera.open(findFrontFacingCamera());
                 camID = findFrontFacingCamera();
                 front_facing_camera = true;
 
             }
-            Log.d("Found front camera", "" + findFrontFacingCamera());
-            camID = findFrontFacingCamera();
         }
         CameraClass returnC = new CameraClass(mcam,sh);
         returnC.startPreviewDetection();
@@ -120,10 +116,7 @@ public class CameraClass {
 
         c.startFaceDetection();
     }
-    public void uniqueMethod() {
 
-        Log.d("This is", "My unique Method");
-    }
 //    @Override
 //    public void surfaceCreated(SurfaceHolder holder) {
 //        Log.d("surface activity", "A-CREATED");
@@ -165,7 +158,6 @@ public class CameraClass {
     public void startCamera() {
 
     	if(mCamera == null) {
-            Log.d("Camera is null", "null");
 	    	if(front_facing_camera){
 	    		if(camID == findFrontFacingCamera()) {
 	    			mCamera = Camera.open(findFrontFacingCamera());
@@ -177,8 +169,6 @@ public class CameraClass {
 	    	}
 
 
-        } else {
-            Log.d("Camera is not null", "not null");
         }
     }
     public int getActiveCamera() {
@@ -200,12 +190,12 @@ public class CameraClass {
     public void switchCams() {
     	if(front_facing_camera){
     		stopCamera();
-    		if(camID == -1) {
+    		if(camID == findBackFacingCamera()) {
     			mCamera = Camera.open(findFrontFacingCamera());
     			camID=findFrontFacingCamera();
     		} else if(camID == findFrontFacingCamera()) {
     			mCamera = Camera.open();
-    			camID = -1;
+    			camID = findBackFacingCamera();
     		}
     	}
         startPreviewDetection();
@@ -249,7 +239,6 @@ public class CameraClass {
             CameraInfo info = new CameraInfo();
             Camera.getCameraInfo(i, info);
             if (info.facing == CameraInfo.CAMERA_FACING_FRONT) {
-                Log.d("THIS", "Camera found");
                 cameraId = i;
                 break;
             }
@@ -264,7 +253,6 @@ public class CameraClass {
             CameraInfo info = new CameraInfo();
             Camera.getCameraInfo(i, info);
             if (info.facing == CameraInfo.CAMERA_FACING_BACK) {
-                Log.d("THIS", "Camera found");
                 cameraId = i;
                 break;
             }

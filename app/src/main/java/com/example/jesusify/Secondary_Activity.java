@@ -36,7 +36,7 @@ import android.view.View.OnClickListener;
 
 public class Secondary_Activity extends Activity {
     Camera mCamera = null;
-    private int camOnClose = -1;
+    static int camOnClose = -1;
     static boolean front_facing_camera = false;
 
     public static SurfaceView drawSurface;
