@@ -15,8 +15,8 @@ static MainActivity thisone;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		ActionBar actionBar = getActionBar();
-		actionBar.hide();
+		//ActionBar actionBar = getActionBar();
+		//actionBar.hide();
 		
 		setContentView(R.layout.activity_main);
 		thisone = this;

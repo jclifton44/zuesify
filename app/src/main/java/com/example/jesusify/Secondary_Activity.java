@@ -47,8 +47,8 @@ public class Secondary_Activity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d("In Create","CREATE");
-		ActionBar actionBar = getActionBar();
-		actionBar.hide();
+		//ActionBar actionBar = getActionBar();
+		//actionBar.hide();
 		setContentView(R.layout.activity_secondary_);
         getWindow().setFormat(PixelFormat.TRANSLUCENT);
         RelativeLayout cameraScreen = (RelativeLayout) findViewById(R.id.cameraLayout);
