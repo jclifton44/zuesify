@@ -36,7 +36,7 @@ import android.view.View.OnClickListener;
 
 public class Secondary_Activity extends Activity {
     Camera mCamera = null;
-    private static int camID = -1;
+    private int camOnClose = -1;
     static boolean front_facing_camera = false;
 
     public static SurfaceView drawSurface;
@@ -60,13 +60,16 @@ public class Secondary_Activity extends Activity {
             @Override
             public void surfaceDestroyed(SurfaceHolder holder) {
                 Log.d("surface activity", "A-DESTROYED");
+                camOnClose = customCamera.getActiveCamera();
+                customCamera.stopCamera();
+                customCamera = null;
             }
 
             @Override
             public void surfaceCreated(SurfaceHolder holder) {
                 Log.d("surface activity", "A-CREATED");
                 if(customCamera == null) {
-                    customCamera = CameraClass.getCustomCameraInstance(drawHolder, getApplicationContext());
+                    customCamera = CameraClass.getCustomCameraInstance(drawHolder, getApplicationContext(), camOnClose);
                 }
             }
 
