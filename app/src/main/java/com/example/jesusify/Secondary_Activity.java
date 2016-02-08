@@ -32,26 +32,32 @@ import android.graphics.RectF;
 import android.hardware.Camera;
 import android.hardware.Camera.CameraInfo;
 import android.view.View.OnClickListener;
-
+import android.content.Context;
+import android.media.Image;
+import android.content.res.Resources;
 
 public class Secondary_Activity extends Activity {
     Camera mCamera = null;
     static int camOnClose = -1;
     static boolean front_facing_camera = false;
-
+    private static Context context;
+    private static Resources resources;
+    private static RelativeLayout cameraScreen;
     public static SurfaceView drawSurface;
     public static SurfaceHolder drawHolder;
     public static Secondary_Activity SA = null;
     public static CameraClass customCamera;
+    static Integer cameraInt = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d("In Create","CREATE");
 		//ActionBar actionBar = getActionBar();
 		//actionBar.hide();
+        CameraClass.mainActivity = this;
 		setContentView(R.layout.activity_secondary_);
         getWindow().setFormat(PixelFormat.TRANSLUCENT);
-        RelativeLayout cameraScreen = (RelativeLayout) findViewById(R.id.cameraLayout);
+        cameraScreen = (RelativeLayout) findViewById(R.id.cameraLayout);
 
         //surface_view = new SurfaceView(getApplicationContext());
         drawSurface = (SurfaceView)findViewById(R.id.surface_viewff);
@@ -81,12 +87,8 @@ public class Secondary_Activity extends Activity {
 
         });
 
-        ImageView image;
-        image = new ImageView(getApplicationContext());
-        image.setImageDrawable(getResources().getDrawable(R.drawable.ic_launcher));
-        CameraClass.trackingImage = image;
-
-        cameraScreen.addView(image);
+        context = getApplicationContext();
+        resources = getResources();
         ImageView button = (ImageView) findViewById(R.id.iv2);
         button.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
@@ -104,6 +106,19 @@ public class Secondary_Activity extends Activity {
                 
             }
         });   
+    }
+    public ImageView getImageInstance() {
+
+        ImageView image;
+        image = new ImageView(getApplicationContext());
+        //Depends on what button has been pressed
+        image.setImageDrawable(getResources().getDrawable(R.drawable.dog_sticker));
+        image.setRotation(270);
+        image.setId(cameraInt++);
+        cameraScreen.addView(image);
+        image.setVisibility(View.INVISIBLE);
+        return image;
+
     }
     	@Override
     	public void onStart() {

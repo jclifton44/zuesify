@@ -1,17 +1,22 @@
 package com.example.jesusify;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.hardware.Camera;
 import android.hardware.Camera.FaceDetectionListener;
 import android.hardware.Camera.Face;
-
+import java.util.TreeMap;
 import android.hardware.Camera.CameraInfo;
 import android.util.Log;
 import android.view.SurfaceHolder;
@@ -25,13 +30,18 @@ public class CameraClass {
     public static ImageView trackingImage;
     private boolean locker=true;
 	private Thread thread;
+    static Secondary_Activity mainActivity = null;
     SurfaceHolder.Callback sh_ob = null;
     private SurfaceHolder surface_holder = null;
     SurfaceHolder.Callback sh_callback  = null;
+    ArrayList<ImageView> masks = new ArrayList<ImageView>();
     private static int camID = -1;
+    private static int maskID = 0;
     private static boolean front_facing_camera = false;
     static boolean camera_started = false;
-	public CameraClass(Camera c, SurfaceHolder sh) {
+    public static Integer MOTIONTHRESHOLD = 100;
+    static  Map<Integer, Point> maskCoordinates = new TreeMap();
+    public CameraClass(Camera c, SurfaceHolder sh) {
         mCamera  = c;
         surface_holder = sh;
 //        ImageView button = (ImageView) findViewById(R.id.iv2);
@@ -83,33 +93,33 @@ public class CameraClass {
     }
     public void startFaceDetection(Camera c) {
         FaceDetectionListener listener = new FaceDetectionListener() {
+            Map<Integer, ImageView> newMasks = new TreeMap<>();
             @Override
             public void onFaceDetection(Face[] faces, Camera c) {
-                if(faces.length > 0) {
-                    Canvas can;
-                   // if((can = DrawClass.surface_holder.lockCanvas()) == null) {
-                   // Log.d("Can", "is Null");
-                   // } else {
-                   // surface_holder.unlockCanvasAndPost(can);
-                   // }
-                   // draw(canvas);
-                   // Log.d("Tracking Image" + faces[0].rect.flattenToString(), "Is Null");
+                //Log.d("found faces:", faces.length + "");
+                ImageView view;
+                while(faces.length < masks.size()) {
+                    view = masks.get( masks.size() - 1 );
+                    view.setVisibility(View.INVISIBLE);
+                    masks.remove(view);
+                }
+                for(Integer i = 0; i < faces.length; i++) {
 
-                    if (faces[0].rect != null) {
-                         //DrawClass.trackingImage.setX(400);
+                    Log.d("face", i + "");
+                    if (masks.size() < i+1) {
 
-                        trackingImage.setX((int)-(faces[0].rect.centerX() / 1.5)+400);
-                        trackingImage.setY((int)(faces[0].rect.centerY()/1.9)+360);
-                        Log.d(String.valueOf(faces[0].rect.centerX()),String.valueOf(faces[0].rect.centerY()));
+                        masks.add(view = mainActivity.getImageInstance());
+                        view.setVisibility(View.VISIBLE);
 
                     }
-
-
-                    Log.d("Found a Face", "!");
-
+                    view = masks.get(i);
+                    Integer xValue = (int) -(faces[i].rect.centerX() / 1.5) + 400;
+                    Integer yValue = (int) (faces[i].rect.centerY() / 1.9) + 360;
+                    view.setX(xValue);
+                    view.setY(yValue);
                 }
-
             }
+
         };
 
         c.setFaceDetectionListener(listener);
@@ -213,7 +223,7 @@ public class CameraClass {
         RectF r = new RectF(border, border, border-20, border-20);
         Paint paint = new Paint();    
         paint.setARGB(200, 135, 135, 135); //paint color GRAY+SEMY TRANSPARENT 
-       // canvas.drawRect(r , paint );
+             canvas.drawRect(r, paint);
         
         /*
          * i want to paint to circles, black and white. one of circles will
