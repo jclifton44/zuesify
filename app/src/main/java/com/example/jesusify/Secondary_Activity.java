@@ -35,6 +35,7 @@ import android.view.View.OnClickListener;
 import android.content.Context;
 import android.media.Image;
 import android.content.res.Resources;
+import android.content.res.Configuration;
 
 public class Secondary_Activity extends Activity {
     Camera mCamera = null;
@@ -101,6 +102,9 @@ public class Secondary_Activity extends Activity {
                 Log.d("surface activity", "A-CHANGED");
                 if(customCamera == null) {
                     customCamera = CameraClass.getCustomCameraInstance(cameraHolder, getApplicationContext(), camOnClose);
+                } else {
+                    customCamera.rotateCamera(getResources().getConfiguration().orientation, getWindowManager().getDefaultDisplay().getRotation());
+
                 }
 
             }
@@ -188,6 +192,12 @@ public class Secondary_Activity extends Activity {
             super.onDestroy();  // Always call the superclass method first
             Log.d("In Destroy","DESTROY");
 
+
+        }
+        @Override
+        public void onConfigurationChanged(Configuration config) {
+            super.onConfigurationChanged(config);
+            Log.d("config", "change!");
 
         }
         @Override

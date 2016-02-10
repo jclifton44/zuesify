@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -29,6 +30,8 @@ public class CameraClass {
 	private Camera mCamera = null;
     public static ImageView trackingImage;
     private boolean locker=true;
+    private static int cameraRotation = 0;
+    private static int cameraOrientation = 0;
 	private Thread thread;
     static Secondary_Activity mainActivity = null;
     private SurfaceHolder surface_holder = null;
@@ -92,6 +95,23 @@ public class CameraClass {
         cp.setPreviewSize(cameraParameterList.get(0).width, cameraParameterList.get(0).height);
         c.setParameters(cp);
     }
+    public void rotateCamera(int orientation, int rotation) {
+        Log.d("rotation", rotation + "");
+
+    if(mCamera != null) {
+            if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                if(rotation == 3) {
+                    mCamera.setDisplayOrientation(180);
+                } else {
+                    mCamera.setDisplayOrientation(0);
+
+                }
+            }
+            if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+                mCamera.setDisplayOrientation(90);
+            }
+        }
+    }
     public void startFaceDetection(Camera c) {
         FaceDetectionListener listener = new FaceDetectionListener() {
             Map<Integer, ImageView> newMasks = new TreeMap<>();
@@ -121,8 +141,33 @@ public class CameraClass {
 
                     }
                     view = masks.get(i);
-                    Integer xValue = -view.getLayoutParams().height/2 + (int)-( (double)((faces[i].rect.exactCenterX() - 1000) * (double)((double)mainActivity.getWindowManager().getDefaultDisplay().getWidth() / (double)2000)));
-                    Integer yValue = -view.getLayoutParams().width/2 +(int) ( (double) ((faces[i].rect.exactCenterY() + 1000) * (double)((double)mainActivity.getWindowManager().getDefaultDisplay().getHeight() / (double)2000)));
+                    Integer xValue=0;
+                    Integer yValue=0;
+                    if(cameraRotation == 0) {
+                        Log.d("cameraRotation", cameraRotation + "");
+                        view.setRotation(0);
+                        xValue = -view.getLayoutParams().width  + (int) -((double) ((faces[i].rect.exactCenterY() - 1000) * (double) ((double) mainActivity.getWindowManager().getDefaultDisplay().getHeight() / (double) 2000)));
+
+                        yValue = /*view.getLayoutParams().height / 2 */+ (int) -((double) ((faces[i].rect.exactCenterX() - 1000) * (double) ((double) mainActivity.getWindowManager().getDefaultDisplay().getWidth() / (double) 2000)));
+                    } else if(cameraRotation == 1) {
+                            Log.d("rotation", "1 one");
+                            xValue = -view.getLayoutParams().height / 2 + (int) -((double) ((faces[i].rect.exactCenterY() - 1000) * (double) ((double) mainActivity.getWindowManager().getDefaultDisplay().getWidth() / (double) 2000)));
+                            yValue = -view.getLayoutParams().width / 2 + (int) ((double) ((faces[i].rect.exactCenterX() + 1000) * (double) ((double) mainActivity.getWindowManager().getDefaultDisplay().getHeight() / (double) 2000)));
+                    } else if(cameraRotation == 2) {
+                            Log.d("totation", "2 two");
+
+                            xValue = -view.getLayoutParams().height / 2 + (int) -((double) ((faces[i].rect.exactCenterY() - 1000) * (double) ((double) mainActivity.getWindowManager().getDefaultDisplay().getWidth() / (double) 2000)));
+                            yValue = -view.getLayoutParams().width / 2 + (int) ((double) ((faces[i].rect.exactCenterX() + 1000) * (double) ((double) mainActivity.getWindowManager().getDefaultDisplay().getHeight() / (double) 2000)));
+
+
+                    } else if(cameraRotation == 3) {
+                        Log.d("totation", "3 two");
+
+                        xValue = -view.getLayoutParams().height / 2 + (int) -((double) ((faces[i].rect.exactCenterX() - 1000) * (double) ((double) mainActivity.getWindowManager().getDefaultDisplay().getWidth() / (double) 2000)));
+                        yValue = -view.getLayoutParams().width / 2 + (int) ((double) ((faces[i].rect.exactCenterY() + 1000) * (double) ((double) mainActivity.getWindowManager().getDefaultDisplay().getHeight() / (double) 2000)));
+
+                    }
+
                     view.setVisibility(View.VISIBLE);
                     view.setX(xValue);
                     view.setY(yValue);
@@ -155,6 +200,7 @@ public class CameraClass {
 //    }
     public void startPreviewDetection() {
         resizeResolutionKitKat(mCamera);
+        mCamera.setDisplayOrientation(90);
         try {
             mCamera.setPreviewDisplay(surface_holder);
         } catch (IOException exception) {
