@@ -31,10 +31,9 @@ public class CameraClass {
     private boolean locker=true;
 	private Thread thread;
     static Secondary_Activity mainActivity = null;
-    SurfaceHolder.Callback sh_ob = null;
     private SurfaceHolder surface_holder = null;
     SurfaceHolder.Callback sh_callback  = null;
-    ArrayList<ImageView> masks = new ArrayList<ImageView>();
+    static ArrayList<ImageView> masks = new ArrayList<ImageView>();
     private static int camID = -1;
     private static int maskID = 0;
     private static boolean front_facing_camera = false;
@@ -84,7 +83,9 @@ public class CameraClass {
         return returnC;
     }
 
-
+    public ImageView resizeImage(ImageView image, Rect face) {
+        return null;
+    }
     public void resizeResolutionKitKat(Camera c) {
         Camera.Parameters cp = c.getParameters();
         List<Camera.Size> cameraParameterList = cp.getSupportedPreviewSizes();
@@ -96,25 +97,33 @@ public class CameraClass {
             Map<Integer, ImageView> newMasks = new TreeMap<>();
             @Override
             public void onFaceDetection(Face[] faces, Camera c) {
+
                 //Log.d("found faces:", faces.length + "");
                 ImageView view;
-                while(faces.length < masks.size()) {
+                if(faces.length > 0) {
+
+
+                    Integer xValue = (int)( (double)((faces[0].rect.centerX() + 1000) * (double)((double)mainActivity.getWindowManager().getDefaultDisplay().getHeight() / (double)2000)));
+                    Integer yValue = (int) ( (double) ((faces[0].rect.centerY() + 1000) * (double)((double)mainActivity.getWindowManager().getDefaultDisplay().getWidth() / (double)2000)));
+                    Log.d("" + xValue, "X");
+                    Log.d("" + yValue, "Y");
+                }
+                while(0 < masks.size()) {
                     view = masks.get( masks.size() - 1 );
                     view.setVisibility(View.INVISIBLE);
                     masks.remove(view);
                 }
                 for(Integer i = 0; i < faces.length; i++) {
-
-                    Log.d("face", i + "");
+                    int ratio = (int) (100f * (float) faces[i].rect.height() / 1500f  );
                     if (masks.size() < i+1) {
-
-                        masks.add(view = mainActivity.getImageInstance());
+                        masks.add(view = mainActivity.getImageInstance(ratio));
                         view.setVisibility(View.VISIBLE);
 
                     }
                     view = masks.get(i);
-                    Integer xValue = (int) -(faces[i].rect.centerX() / 1.5) + 400;
-                    Integer yValue = (int) (faces[i].rect.centerY() / 1.9) + 360;
+                    Integer xValue = 100+(int)-( (double)((faces[i].rect.exactCenterX() - 1000) * (double)((double)mainActivity.getWindowManager().getDefaultDisplay().getHeight() / (double)2000)));
+                    Integer yValue = -260 + (int) ( (double) ((faces[i].rect.exactCenterY() + 1000) * (double)((double)mainActivity.getWindowManager().getDefaultDisplay().getWidth() / (double)2000)));
+                    view.setVisibility(View.VISIBLE);
                     view.setX(xValue);
                     view.setY(yValue);
                 }

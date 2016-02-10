@@ -42,9 +42,11 @@ public class Secondary_Activity extends Activity {
     static boolean front_facing_camera = false;
     private static Context context;
     private static Resources resources;
-    private static RelativeLayout cameraScreen;
-    public static SurfaceView drawSurface;
-    public static SurfaceHolder drawHolder;
+    public static RelativeLayout cameraScreen;
+    public static SurfaceView cameraSurface;
+
+    public static SurfaceHolder cameraHolder;
+
     public static Secondary_Activity SA = null;
     public static CameraClass customCamera;
     static Integer cameraInt = 0;
@@ -59,10 +61,22 @@ public class Secondary_Activity extends Activity {
         getWindow().setFormat(PixelFormat.TRANSLUCENT);
         cameraScreen = (RelativeLayout) findViewById(R.id.cameraLayout);
 
+        ImageView image;
+        image = new ImageView(getApplicationContext());
+        //Depends on what button has been pressed
+        image.setImageDrawable(getResources().getDrawable(R.drawable.doge_sticker));
+        image.setRotation(270);
+        image.setId(cameraInt++);
+        image.setX(1180);
+        image.setY(100);
+        cameraScreen.addView(image);
+
+
         //surface_view = new SurfaceView(getApplicationContext());
-        drawSurface = (SurfaceView)findViewById(R.id.surface_viewff);
-        drawHolder = drawSurface.getHolder();
-        drawHolder.addCallback(new SurfaceHolder.Callback() {
+        cameraSurface = (SurfaceView)findViewById(R.id.surface_viewf1);
+
+        cameraHolder = cameraSurface.getHolder();
+        cameraHolder.addCallback(new SurfaceHolder.Callback() {
             @Override
             public void surfaceDestroyed(SurfaceHolder holder) {
                 Log.d("surface activity", "A-DESTROYED");
@@ -74,15 +88,21 @@ public class Secondary_Activity extends Activity {
             @Override
             public void surfaceCreated(SurfaceHolder holder) {
                 Log.d("surface activity", "A-CREATED");
-                if(customCamera == null) {
-                    customCamera = CameraClass.getCustomCameraInstance(drawHolder, getApplicationContext(), camOnClose);
-                }
+
+                //if(customCamera == null) {
+                ///    customCamera = CameraClass.getCustomCameraInstance(cameraHolder, getApplicationContext(), camOnClose);
+                //}
+
             }
 
             @Override
             public void surfaceChanged(SurfaceHolder holder, int format, int width,
                                        int height) {
                 Log.d("surface activity", "A-CHANGED");
+                if(customCamera == null) {
+                    customCamera = CameraClass.getCustomCameraInstance(cameraHolder, getApplicationContext(), camOnClose);
+                }
+
             }
 
         });
@@ -94,7 +114,7 @@ public class Secondary_Activity extends Activity {
             public void onClick(View v) {
                 //sh_callback.surfaceDestroyed(surface_holder);
                 Secondary_Activity.customCamera.switchCams();
-                //Secondary_Activity.drawSurface.nextCameraSize(Secondary_Activity.drawSurface.mCamera);
+                //Secondary_Activity.cameraSurface.nextCameraSize(Secondary_Activity.cameraSurface.mCamera);
             }
 
 
@@ -107,16 +127,24 @@ public class Secondary_Activity extends Activity {
             }
         });   
     }
-    public ImageView getImageInstance() {
+    public ImageView getImageInstance(int percent) {
 
         ImageView image;
         image = new ImageView(getApplicationContext());
         //Depends on what button has been pressed
-        image.setImageDrawable(getResources().getDrawable(R.drawable.dog_sticker));
+        image.setImageDrawable(getResources().getDrawable(R.drawable.doge_sticker));
         image.setRotation(270);
         image.setId(cameraInt++);
+        Integer w = getResources().getDrawable(R.drawable.doge_sticker).getMinimumWidth();
+        Integer h = getResources().getDrawable(R.drawable.doge_sticker).getMinimumHeight();
+
+        LayoutParams layout = new LayoutParams((int)(h * (percent / 100f)), (int)(w * (percent / 100f)));
+        image.setLayoutParams(layout);
+
         cameraScreen.addView(image);
         image.setVisibility(View.INVISIBLE);
+
+
         return image;
 
     }
@@ -129,7 +157,7 @@ public class Secondary_Activity extends Activity {
         public void onPause() {
             super.onPause();  // Always call the superclass method first
             Log.d("In Pause", "PAUSE");
-            //drawSurface.stopCamera();
+            //cameraSurface.stopCamera();
             if(isFinishing()) {
                 Log.d("is finishing true", "true");
             } else {
@@ -138,15 +166,21 @@ public class Secondary_Activity extends Activity {
             }
             // Release the Camera because we don't need it when paused
             // and other activities might need to use it.
-          //  drawSurface = null;
-            //if(drawSurface != null){
-            	//drawSurface.stopCamera();
+          //  cameraSurface = null;
+            //if(cameraSurface != null){
+            	//cameraSurface.stopCamera();
             //}
-            //drawSurface = null;
+            //cameraSurface = null;
         }
         @Override
         protected void onStop() {
             super.onStop();  // Always call the superclass method first
+            ImageView view;
+            while(0 < CameraClass.masks.size()) {
+                view = CameraClass.masks.get( CameraClass.masks.size() - 1 );
+                view.setVisibility(View.INVISIBLE);
+                CameraClass.masks.remove(view);
+            }
             Log.d("In Stop","STOP");
         }
         @Override

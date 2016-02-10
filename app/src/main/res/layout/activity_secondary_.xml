@@ -1,12 +1,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cameraLayout"
+    android:background="@android:color/transparent"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Secondary_Activity" >
 
     <SurfaceView
-        android:id="@+id/surface_viewff"
+        android:id="@+id/surface_viewf1"
         android:layout_width="fill_parent"
         android:layout_height="10dip"
         android:layout_alignParentBottom="true"
@@ -14,6 +16,44 @@
         android:layout_alignParentTop="true"
         android:layout_weight="1" />
 
+
+    <ScrollView
+        android:layout_width="300px"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:scrollbars="none"
+
+        >
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools/"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:orientation="vertical"
+
+            >
+            <ImageView
+                android:id="@+id/idddddv1"
+                android:layout_width="280px"
+                android:layout_height="280px"
+                android:layout_marginRight="20dp"
+                android:src="@drawable/ic_launcher_dot" />
+
+            <ImageView
+                android:id="@+id/iasv1"
+                android:layout_width="280px"
+                android:layout_height="280px"
+                android:layout_marginRight="20dp"
+                android:src="@drawable/ic_launcher_dot" />
+            <ImageView
+                android:id="@+id/idddv1"
+                android:layout_width="280px"
+                android:layout_height="280px"
+                android:layout_marginRight="20dp"
+                android:src="@drawable/ic_launcher_dot" />
+        </LinearLayout>
+
+        </ScrollView>
 
     <ImageView
         android:id="@+id/iv1"
