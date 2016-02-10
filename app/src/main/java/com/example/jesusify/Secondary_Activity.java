@@ -102,9 +102,6 @@ public class Secondary_Activity extends Activity {
                 Log.d("surface activity", "A-CHANGED");
                 if(customCamera == null) {
                     customCamera = CameraClass.getCustomCameraInstance(cameraHolder, getApplicationContext(), camOnClose);
-                } else {
-                    customCamera.rotateCamera(getResources().getConfiguration().orientation, getWindowManager().getDefaultDisplay().getRotation());
-
                 }
 
             }
@@ -137,7 +134,7 @@ public class Secondary_Activity extends Activity {
         image = new ImageView(getApplicationContext());
         //Depends on what button has been pressed
         image.setImageDrawable(getResources().getDrawable(R.drawable.doge_sticker));
-        image.setRotation(270);
+        image.setRotation(0);
         image.setId(cameraInt++);
         Integer w = getResources().getDrawable(R.drawable.doge_sticker).getMinimumWidth();
         Integer h = getResources().getDrawable(R.drawable.doge_sticker).getMinimumHeight();

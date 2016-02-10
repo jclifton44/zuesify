@@ -141,32 +141,12 @@ public class CameraClass {
 
                     }
                     view = masks.get(i);
-                    Integer xValue=0;
-                    Integer yValue=0;
-                    if(cameraRotation == 0) {
-                        Log.d("cameraRotation", cameraRotation + "");
-                        view.setRotation(0);
-                        xValue = -view.getLayoutParams().width  + (int) -((double) ((faces[i].rect.exactCenterY() - 1000) * (double) ((double) mainActivity.getWindowManager().getDefaultDisplay().getHeight() / (double) 2000)));
-
-                        yValue = /*view.getLayoutParams().height / 2 */+ (int) -((double) ((faces[i].rect.exactCenterX() - 1000) * (double) ((double) mainActivity.getWindowManager().getDefaultDisplay().getWidth() / (double) 2000)));
-                    } else if(cameraRotation == 1) {
-                            Log.d("rotation", "1 one");
-                            xValue = -view.getLayoutParams().height / 2 + (int) -((double) ((faces[i].rect.exactCenterY() - 1000) * (double) ((double) mainActivity.getWindowManager().getDefaultDisplay().getWidth() / (double) 2000)));
-                            yValue = -view.getLayoutParams().width / 2 + (int) ((double) ((faces[i].rect.exactCenterX() + 1000) * (double) ((double) mainActivity.getWindowManager().getDefaultDisplay().getHeight() / (double) 2000)));
-                    } else if(cameraRotation == 2) {
-                            Log.d("totation", "2 two");
-
-                            xValue = -view.getLayoutParams().height / 2 + (int) -((double) ((faces[i].rect.exactCenterY() - 1000) * (double) ((double) mainActivity.getWindowManager().getDefaultDisplay().getWidth() / (double) 2000)));
-                            yValue = -view.getLayoutParams().width / 2 + (int) ((double) ((faces[i].rect.exactCenterX() + 1000) * (double) ((double) mainActivity.getWindowManager().getDefaultDisplay().getHeight() / (double) 2000)));
+                    Integer xValue;
+                    Integer yValue;
+                    xValue = -view.getLayoutParams().height / 2 + (int) -((double) ((faces[i].rect.exactCenterY() - 1000) * (double) ((double) mainActivity.getWindowManager().getDefaultDisplay().getWidth() / (double) 2000)));
+                    yValue = -view.getLayoutParams().width / 2 + (int)- ((double) ((faces[i].rect.exactCenterX() + 1000) * (double) ((double) mainActivity.getWindowManager().getDefaultDisplay().getHeight() / (double) 2000))) + mainActivity.getWindowManager().getDefaultDisplay().getHeight();
 
 
-                    } else if(cameraRotation == 3) {
-                        Log.d("totation", "3 two");
-
-                        xValue = -view.getLayoutParams().height / 2 + (int) -((double) ((faces[i].rect.exactCenterX() - 1000) * (double) ((double) mainActivity.getWindowManager().getDefaultDisplay().getWidth() / (double) 2000)));
-                        yValue = -view.getLayoutParams().width / 2 + (int) ((double) ((faces[i].rect.exactCenterY() + 1000) * (double) ((double) mainActivity.getWindowManager().getDefaultDisplay().getHeight() / (double) 2000)));
-
-                    }
 
                     view.setVisibility(View.VISIBLE);
                     view.setX(xValue);
