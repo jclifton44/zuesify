@@ -121,8 +121,8 @@ public class CameraClass {
 
                     }
                     view = masks.get(i);
-                    Integer xValue = 100+(int)-( (double)((faces[i].rect.exactCenterX() - 1000) * (double)((double)mainActivity.getWindowManager().getDefaultDisplay().getHeight() / (double)2000)));
-                    Integer yValue = -260 + (int) ( (double) ((faces[i].rect.exactCenterY() + 1000) * (double)((double)mainActivity.getWindowManager().getDefaultDisplay().getWidth() / (double)2000)));
+                    Integer xValue = -view.getLayoutParams().height/2 + (int)-( (double)((faces[i].rect.exactCenterX() - 1000) * (double)((double)mainActivity.getWindowManager().getDefaultDisplay().getWidth() / (double)2000)));
+                    Integer yValue = -view.getLayoutParams().width/2 +(int) ( (double) ((faces[i].rect.exactCenterY() + 1000) * (double)((double)mainActivity.getWindowManager().getDefaultDisplay().getHeight() / (double)2000)));
                     view.setVisibility(View.VISIBLE);
                     view.setX(xValue);
                     view.setY(yValue);
