@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".Secondary_Activity" >
 
-    <SurfaceView
+    <com.example.jesusify.DrawView
         android:id="@+id/surface_viewf1"
         android:layout_width="fill_parent"
         android:layout_height="10dip"
@@ -17,7 +17,7 @@
         android:layout_weight="1" />
 
 
-    <ScrollView
+    <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="300px"
         android:layout_alignParentTop="true"
@@ -33,27 +33,27 @@
 
             >
             <ImageView
-                android:id="@+id/idddddv1"
+                android:id="@+id/s1"
                 android:layout_width="280px"
                 android:layout_height="280px"
                 android:layout_marginRight="20dp"
-                android:src="@drawable/ic_launcher_dot" />
+                android:src="@drawable/doge_sticker" />
 
             <ImageView
-                android:id="@+id/iasv1"
+                android:id="@+id/s2"
                 android:layout_width="280px"
                 android:layout_height="280px"
                 android:layout_marginRight="20dp"
-                android:src="@drawable/ic_launcher_dot" />
+                android:src="@drawable/hera_sticker" />
             <ImageView
-                android:id="@+id/idddv1"
+                android:id="@+id/s3"
                 android:layout_width="280px"
                 android:layout_height="280px"
                 android:layout_marginRight="20dp"
-                android:src="@drawable/ic_launcher_dot" />
+                android:src="@drawable/zeus_sticker" />
         </LinearLayout>
 
-        </ScrollView>
+        </HorizontalScrollView>
 
     <ImageView
         android:id="@+id/iv1"

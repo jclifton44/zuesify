@@ -44,7 +44,7 @@ public class Secondary_Activity extends Activity {
     private static Context context;
     private static Resources resources;
     public static RelativeLayout cameraScreen;
-    public static SurfaceView cameraSurface;
+    public static DrawView cameraSurface;
 
     public static SurfaceHolder cameraHolder;
 
@@ -65,7 +65,7 @@ public class Secondary_Activity extends Activity {
         ImageView image;
         image = new ImageView(getApplicationContext());
         //Depends on what button has been pressed
-        image.setImageDrawable(getResources().getDrawable(R.drawable.doge_sticker));
+        image.setImageDrawable(getResources().getDrawable(R.drawable.hera_sticker));
         image.setRotation(270);
         image.setId(cameraInt++);
         image.setX(1180);
@@ -74,7 +74,7 @@ public class Secondary_Activity extends Activity {
 
 
         //surface_view = new SurfaceView(getApplicationContext());
-        cameraSurface = (SurfaceView)findViewById(R.id.surface_viewf1);
+        cameraSurface = (DrawView)findViewById(R.id.surface_viewf1);
 
         cameraHolder = cameraSurface.getHolder();
         cameraHolder.addCallback(new SurfaceHolder.Callback() {
@@ -133,11 +133,11 @@ public class Secondary_Activity extends Activity {
         ImageView image;
         image = new ImageView(getApplicationContext());
         //Depends on what button has been pressed
-        image.setImageDrawable(getResources().getDrawable(R.drawable.doge_sticker));
+        image.setImageDrawable(getResources().getDrawable(R.drawable.hera_sticker));
         image.setRotation(0);
         image.setId(cameraInt++);
-        Integer w = getResources().getDrawable(R.drawable.doge_sticker).getMinimumWidth();
-        Integer h = getResources().getDrawable(R.drawable.doge_sticker).getMinimumHeight();
+        Integer w = getResources().getDrawable(R.drawable.hera_sticker).getMinimumWidth();
+        Integer h = getResources().getDrawable(R.drawable.hera_sticker).getMinimumHeight();
 
         LayoutParams layout = new LayoutParams((int)(h * (percent / 100f)), (int)(w * (percent / 100f)));
         image.setLayoutParams(layout);
