@@ -25,6 +25,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.widget.ImageView;
 import android.hardware.camera2.*;
+import android.os.Environment;
 public class CameraClass {
     static Canvas mCanvas;
 	private Camera mCamera = null;
@@ -43,6 +44,13 @@ public class CameraClass {
     static boolean camera_started = false;
     public static Integer MOTIONTHRESHOLD = 100;
     static  Map<Integer, Point> maskCoordinates = new TreeMap();
+    public static Camera.ShutterCallback shutter;
+    static Camera.PictureCallback picture_raw;
+    static Camera.PictureCallback picture_postview;
+    static Camera.PictureCallback picture_jpeg;
+    static String storagePath = Environment.getExternalStorageDirectory().toString();
+
+
     public CameraClass(Camera c, SurfaceHolder sh) {
         mCamera  = c;
         surface_holder = sh;
@@ -52,6 +60,9 @@ public class CameraClass {
 //        }
 		// TODO Auto-generated constructor stub
 	}
+    public void takePhoto() {
+
+    }
     public static CameraClass getCustomCameraInstance(SurfaceHolder sh, Context c, int camOnClose) {
         Camera mcam;
         if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP ) {
@@ -179,6 +190,30 @@ public class CameraClass {
 //
 //    }
     public void startPreviewDetection() {
+        shutter = new Camera.ShutterCallback() {
+            @Override
+            public void onShutter() {
+
+            }
+        };
+        picture_raw = new Camera.PictureCallback() {
+            @Override
+            public void onPictureTaken(byte[] data, Camera c) {
+
+            }
+        };
+        picture_postview = new Camera.PictureCallback() {
+            @Override
+            public void onPictureTaken(byte[] data, Camera c) {
+
+            }
+        };
+        picture_jpeg = new Camera.PictureCallback() {
+            @Override
+            public void onPictureTaken(byte[] data, Camera c) {
+
+            }
+        };
         resizeResolutionKitKat(mCamera);
         mCamera.setDisplayOrientation(90);
         try {
@@ -304,6 +339,7 @@ public class CameraClass {
         }
         return cameraId;
     }
+
 
 
 }

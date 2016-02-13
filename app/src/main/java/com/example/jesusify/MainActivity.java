@@ -11,7 +11,7 @@ import android.view.Menu;
 import com.example.jesusify.Secondary_Activity;
 
 public class MainActivity extends Activity {
-static MainActivity thisone;
+static MainActivity MA;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -19,7 +19,7 @@ static MainActivity thisone;
 		//actionBar.hide();
 		
 		setContentView(R.layout.activity_main);
-		thisone = this;
+		MA = this;
 		
 		new Handler().postDelayed(new Runnable(){
             @Override
@@ -28,7 +28,7 @@ static MainActivity thisone;
         		Intent mi = new Intent(MainActivity.this, Secondary_Activity.class);
         		startActivity(mi);
         		Log.d("Starting second Ac","Yep");
-        		MainActivity.thisone.finish();
+        		MainActivity.MA.finish();
         		
             }
         }, 2000);

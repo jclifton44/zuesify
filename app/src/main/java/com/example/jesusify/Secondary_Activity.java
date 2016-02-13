@@ -1,10 +1,14 @@
 package com.example.jesusify;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
 import android.media.FaceDetector;
 import android.media.FaceDetector.Face;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.app.ActionBar;
 import android.app.ActionBar.LayoutParams;
@@ -36,10 +40,12 @@ import android.content.Context;
 import android.media.Image;
 import android.content.res.Resources;
 import android.content.res.Configuration;
+import android.opengl.GLES20;
 
 public class Secondary_Activity extends Activity {
+    public static int sticker = R.drawable.doge_sticker;
     Camera mCamera = null;
-    static int camOnClose = -1;
+    static int act = -1;
     static boolean front_facing_camera = false;
     private static Context context;
     private static Resources resources;
@@ -51,9 +57,12 @@ public class Secondary_Activity extends Activity {
     public static Secondary_Activity SA = null;
     public static CameraClass customCamera;
     static Integer cameraInt = 0;
+    static String storagePath = Environment.getExternalStorageDirectory().toString();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SA = this;
         Log.d("In Create","CREATE");
 		//ActionBar actionBar = getActionBar();
 		//actionBar.hide();
@@ -65,7 +74,7 @@ public class Secondary_Activity extends Activity {
         ImageView image;
         image = new ImageView(getApplicationContext());
         //Depends on what button has been pressed
-        image.setImageDrawable(getResources().getDrawable(R.drawable.hera_sticker));
+        image.setImageDrawable(getResources().getDrawable(sticker));
         image.setRotation(270);
         image.setId(cameraInt++);
         image.setX(1180);
@@ -77,44 +86,45 @@ public class Secondary_Activity extends Activity {
         cameraSurface = (DrawView)findViewById(R.id.surface_viewf1);
 
         cameraHolder = cameraSurface.getHolder();
-        cameraHolder.addCallback(new SurfaceHolder.Callback() {
-            @Override
-            public void surfaceDestroyed(SurfaceHolder holder) {
-                Log.d("surface activity", "A-DESTROYED");
-                camOnClose = customCamera.getActiveCamera();
-                customCamera.stopCamera();
-                customCamera = null;
-            }
+        //cameraHolder.addCallback(new SurfaceHolder.Callback() {
 
-            @Override
-            public void surfaceCreated(SurfaceHolder holder) {
-                Log.d("surface activity", "A-CREATED");
 
-                //if(customCamera == null) {
-                ///    customCamera = CameraClass.getCustomCameraInstance(cameraHolder, getApplicationContext(), camOnClose);
-                //}
-
-            }
-
-            @Override
-            public void surfaceChanged(SurfaceHolder holder, int format, int width,
-                                       int height) {
-                Log.d("surface activity", "A-CHANGED");
-                if(customCamera == null) {
-                    customCamera = CameraClass.getCustomCameraInstance(cameraHolder, getApplicationContext(), camOnClose);
-                }
-
-            }
-
-        });
+        //});
 
         context = getApplicationContext();
         resources = getResources();
         ImageView button = (ImageView) findViewById(R.id.iv2);
+        ImageView selector1 = (ImageView) findViewById(R.id.s1_doge);
+        ImageView selector2 = (ImageView) findViewById(R.id.s2_hera);
+        ImageView selector3 = (ImageView) findViewById(R.id.s3_zeus);
+        selector1.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                sticker = R.drawable.doge_sticker;
+            }
+
+
+        });
+        selector2.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                sticker = R.drawable.hera_sticker;
+
+            }
+
+
+        });
+        selector3.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                sticker = R.drawable.zeus_sticker;
+
+            }
+
+
+        });
+
         button.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 //sh_callback.surfaceDestroyed(surface_holder);
-                Secondary_Activity.customCamera.switchCams();
+                DrawView.customCamera.switchCams();
                 //Secondary_Activity.cameraSurface.nextCameraSize(Secondary_Activity.cameraSurface.mCamera);
             }
 
@@ -124,20 +134,38 @@ public class Secondary_Activity extends Activity {
         blue.setOnClickListener(new OnClickListener() {
             @SuppressWarnings("unused")
             public void onClick(View v) {
-                
+                DrawView.customCamera.takePhoto();
+                //if(isValid)
+                //Bitmap map = Bitmap.createBitmap(cameraSurface.getWidth(), cameraSurface.getHeight(), Bitmap.Config.ARGB_8888);
+                //Canvas canvas = new Canvas(map);
+                //cameraSurface.draw(canvas);
+                //FileOutputStream fout = null;
+                //File file = new File(storagePath, "FacePicture.png");
+                //Log.d(storagePath.toString(), "Storage String");
+                //try {
+                //    fout = new FileOutputStream(file);
+                //    map.compress(Bitmap.CompressFormat.PNG,100,fout);
+                //    fout.close();
+                //} catch (Exception e) {
+                //    //exception
+                //}
+                //Canvas canvas = cameraHolder.lockCanvas(null);
+                //cameraSurface.onDraw(canvas);
+                //cameraHolder.unlockCanvasAndPost(canvas);
             }
-        });   
+        });
+
     }
     public ImageView getImageInstance(int percent) {
 
         ImageView image;
         image = new ImageView(getApplicationContext());
         //Depends on what button has been pressed
-        image.setImageDrawable(getResources().getDrawable(R.drawable.hera_sticker));
+        image.setImageDrawable(getResources().getDrawable(sticker));
         image.setRotation(0);
         image.setId(cameraInt++);
-        Integer w = getResources().getDrawable(R.drawable.hera_sticker).getMinimumWidth();
-        Integer h = getResources().getDrawable(R.drawable.hera_sticker).getMinimumHeight();
+        Integer w = getResources().getDrawable(sticker).getMinimumWidth();
+        Integer h = getResources().getDrawable(sticker).getMinimumHeight();
 
         LayoutParams layout = new LayoutParams((int)(h * (percent / 100f)), (int)(w * (percent / 100f)));
         image.setLayoutParams(layout);
@@ -208,22 +236,5 @@ public class Secondary_Activity extends Activity {
             super.onResume();  // Always call the superclass method first
             Log.d("In Resume", "RESUME");
         }
-
-
-
-
-
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
 
 }
