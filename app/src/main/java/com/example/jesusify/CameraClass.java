@@ -15,6 +15,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -28,6 +29,7 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.hardware.camera2.*;
 import android.os.Environment;
@@ -44,6 +46,7 @@ public class CameraClass {
     SurfaceHolder.Callback sh_callback  = null;
     static ArrayList<ImageView> masks = new ArrayList<ImageView>();
     private static int camID = -1;
+    private static Context cameraContext = null;
     private static int maskID = 0;
     private static boolean front_facing_camera = false;
     static boolean camera_started = false;
@@ -69,6 +72,8 @@ public class CameraClass {
         mCamera.takePicture(shutter,picture_raw,picture_postview,picture_jpeg);
     }
     public static CameraClass getCustomCameraInstance(SurfaceHolder sh, Context c, int camOnClose) {
+        cameraContext = c;
+
         Camera mcam;
         if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP ) {
             //handle NEW camera (We need a device compatible with lollipop
@@ -109,6 +114,7 @@ public class CameraClass {
         Camera.Parameters cp = c.getParameters();
         List<Camera.Size> cameraParameterList = cp.getSupportedPreviewSizes();
         cp.setPreviewSize(cameraParameterList.get(0).width, cameraParameterList.get(0).height);
+        cp.setPictureSize(cameraParameterList.get(0).width, cameraParameterList.get(0).height);
         c.setParameters(cp);
     }
     public void rotateCamera(int orientation, int rotation) {
@@ -220,10 +226,21 @@ public class CameraClass {
                 FileOutputStream fout = null;
                 File file = new File(storagePath, "FacePicture.jpg");
                 Log.d(storagePath.toString(), "Storage String");
+                Bitmap map = Bitmap.createBitmap(Secondary_Activity.cameraSurface.getWidth(), Secondary_Activity.cameraSurface.getHeight(), Bitmap.Config.ARGB_8888);
+                Bitmap sticker = BitmapFactory.decodeResource(cameraContext.getResources(), Secondary_Activity.sticker);
+
+                Matrix m = new Matrix();
+                m.postRotate(270);
                 try {
                     fout = new FileOutputStream(file);
-                    Bitmap map = BitmapFactory.decodeByteArray(data, 0, data.length, null);
-                    map.compress(Bitmap.CompressFormat.JPEG,100,fout);
+                    Bitmap photo = BitmapFactory.decodeByteArray(data, 0, data.length);
+                    photo = Bitmap.createScaledBitmap(photo,photo.getWidth()/2, photo.getHeight() / 2, false);
+                    Bitmap rotatedPhoto = Bitmap.createBitmap(photo,0,0,photo.getWidth(), photo.getHeight(), m, true);
+
+                    Canvas canvas = new Canvas(map);
+                    canvas.drawBitmap(rotatedPhoto, 0,0, null);
+                    canvas.drawBitmap(sticker, 500, 500, null);
+                    map.compress(Bitmap.CompressFormat.PNG, 100, fout);
                     fout.close();
                 } catch (Exception e) {
                     //exception
@@ -233,6 +250,7 @@ public class CameraClass {
         resizeResolutionKitKat(mCamera);
         mCamera.setDisplayOrientation(90);
         try {
+
             mCamera.setPreviewDisplay(surface_holder);
         } catch (IOException exception) {
             stopCamera();
