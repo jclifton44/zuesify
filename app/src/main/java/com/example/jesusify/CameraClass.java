@@ -159,6 +159,8 @@ public class CameraClass {
                     int ratio = (int) (100f * (float) faces[i].rect.height() / 1500f  );
                     if (masks.size() < i+1) {
                         masks.add(view = mainActivity.getImageInstance(ratio));
+
+
                         view.setVisibility(View.VISIBLE);
 
                     }
@@ -244,7 +246,10 @@ public class CameraClass {
 
                     Canvas canvas = new Canvas(map);
                     canvas.drawBitmap(rotatedPhoto, 0,0, null);
-                    canvas.drawBitmap(sticker, 500, 500, null);
+                    for(ImageView v: masks) {
+                        canvas.drawBitmap(sticker, v.getX(),v.getY() , null);
+
+                    }
                     map.compress(Bitmap.CompressFormat.PNG, 100, fout);
                     fout.close();
                 } catch (Exception e) {
