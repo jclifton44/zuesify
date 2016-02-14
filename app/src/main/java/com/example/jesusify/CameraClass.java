@@ -57,7 +57,7 @@ public class CameraClass {
     static Camera.PictureCallback picture_postview;
     static Camera.PictureCallback picture_jpeg;
     static String storagePath = Environment.getExternalStorageDirectory().toString();
-
+    private static ArrayList<Face> faceArray = new ArrayList<>();
 
     public CameraClass(Camera c, SurfaceHolder sh) {
         mCamera  = c;
@@ -141,6 +141,7 @@ public class CameraClass {
             public void onFaceDetection(Face[] faces, Camera c) {
 
                 //Log.d("found faces:", faces.length + "");
+
                 ImageView view;
                 if(faces.length > 0) {
 
@@ -150,16 +151,17 @@ public class CameraClass {
                     Log.d("" + xValue, "X");
                     Log.d("" + yValue, "Y");
                 }
-                while(0 < masks.size()) {
+                while(0 < masks.size() ) {
                     view = masks.get( masks.size() - 1 );
                     view.setVisibility(View.INVISIBLE);
                     masks.remove(view);
                 }
+                faceArray.clear();
                 for(Integer i = 0; i < faces.length; i++) {
                     int ratio = (int) (100f * (float) faces[i].rect.height() / 1500f  );
                     if (masks.size() < i+1) {
                         masks.add(view = mainActivity.getImageInstance(ratio));
-
+                        faceArray.add(faces[i]);
 
                         view.setVisibility(View.VISIBLE);
 
@@ -236,18 +238,19 @@ public class CameraClass {
                 try {
                     fout = new FileOutputStream(file);
                     Bitmap photo = BitmapFactory.decodeByteArray(data, 0, data.length);
-                    Log.d("photo w", ""+photo.getWidth());
-                    Log.d("cameraphoto w", ""+Secondary_Activity.SA.cameraSurface.getWidth());
-                    Log.d("photo h", ""+photo.getHeight());
-                    Log.d("cameraphoto h", ""+Secondary_Activity.SA.cameraSurface.getHeight());
 
                     photo = Bitmap.createScaledBitmap(photo,Secondary_Activity.SA.cameraSurface.getHeight(), Secondary_Activity.SA.cameraSurface.getWidth() , false);
                     Bitmap rotatedPhoto = Bitmap.createBitmap(photo,0,0,photo.getWidth(), photo.getHeight(), m, true);
 
                     Canvas canvas = new Canvas(map);
                     canvas.drawBitmap(rotatedPhoto, 0,0, null);
-                    for(ImageView v: masks) {
-                        canvas.drawBitmap(sticker, v.getX(),v.getY() , null);
+                    for(int i = 0; i < masks.size(); i++) {
+                        float ratio = (float) faceArray.get(i).rect.height() / 1500f;
+                        Integer newHeight = (int)((float)(ratio*sticker.getHeight()));
+                        Integer newWidth = (int)((float)(ratio*sticker.getWidth()));
+                        Bitmap scaledSticker = Bitmap.createScaledBitmap(sticker, newWidth, newHeight, false);
+
+                        canvas.drawBitmap(scaledSticker, masks.get(i).getX(),masks.get(i).getY() , null);
 
                     }
                     map.compress(Bitmap.CompressFormat.PNG, 100, fout);
