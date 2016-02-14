@@ -136,22 +136,22 @@ public class Secondary_Activity extends Activity {
             public void onClick(View v) {
                 DrawView.customCamera.takePhoto();
                 //if(isValid)
-                //Bitmap map = Bitmap.createBitmap(cameraSurface.getWidth(), cameraSurface.getHeight(), Bitmap.Config.ARGB_8888);
-                //Canvas canvas = new Canvas(map);
-                //cameraSurface.draw(canvas);
-                //FileOutputStream fout = null;
-                //File file = new File(storagePath, "FacePicture.png");
-                //Log.d(storagePath.toString(), "Storage String");
-                //try {
-                //    fout = new FileOutputStream(file);
-                //    map.compress(Bitmap.CompressFormat.PNG,100,fout);
-                //    fout.close();
-                //} catch (Exception e) {
-                //    //exception
-                //}
-                //Canvas canvas = cameraHolder.lockCanvas(null);
-                //cameraSurface.onDraw(canvas);
-                //cameraHolder.unlockCanvasAndPost(canvas);
+//                Bitmap map = Bitmap.createBitmap(cameraSurface.getWidth(), cameraSurface.getHeight(), Bitmap.Config.ARGB_8888);
+//                Canvas canvas = new Canvas(map);
+//                cameraSurface.draw(canvas);
+//                FileOutputStream fout = null;
+//                File file = new File(storagePath, "FacePicture.png");
+//                Log.d(storagePath.toString(), "Storage String");
+//                try {
+//                    fout = new FileOutputStream(file);
+//                    map.compress(Bitmap.CompressFormat.PNG,100,fout);
+//                    fout.close();
+//                } catch (Exception e) {
+//                    //exception
+//                }
+//                Canvas canvas = cameraHolder.lockCanvas(null);
+//                cameraSurface.onDraw(canvas);
+//                cameraHolder.unlockCanvasAndPost(canvas);
             }
         });
 

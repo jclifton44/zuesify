@@ -1,13 +1,18 @@
 package com.example.jesusify;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import java.io.FileOutputStream;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -61,7 +66,7 @@ public class CameraClass {
 		// TODO Auto-generated constructor stub
 	}
     public void takePhoto() {
-
+        mCamera.takePicture(shutter,picture_raw,picture_postview,picture_jpeg);
     }
     public static CameraClass getCustomCameraInstance(SurfaceHolder sh, Context c, int camOnClose) {
         Camera mcam;
@@ -211,7 +216,18 @@ public class CameraClass {
         picture_jpeg = new Camera.PictureCallback() {
             @Override
             public void onPictureTaken(byte[] data, Camera c) {
-
+                Log.d("Camera","photo");
+                FileOutputStream fout = null;
+                File file = new File(storagePath, "FacePicture.jpg");
+                Log.d(storagePath.toString(), "Storage String");
+                try {
+                    fout = new FileOutputStream(file);
+                    Bitmap map = BitmapFactory.decodeByteArray(data, 0, data.length, null);
+                    map.compress(Bitmap.CompressFormat.JPEG,100,fout);
+                    fout.close();
+                } catch (Exception e) {
+                    //exception
+                }
             }
         };
         resizeResolutionKitKat(mCamera);
