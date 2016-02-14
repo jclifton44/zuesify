@@ -234,7 +234,12 @@ public class CameraClass {
                 try {
                     fout = new FileOutputStream(file);
                     Bitmap photo = BitmapFactory.decodeByteArray(data, 0, data.length);
-                    photo = Bitmap.createScaledBitmap(photo,photo.getWidth()/2, photo.getHeight() / 2, false);
+                    Log.d("photo w", ""+photo.getWidth());
+                    Log.d("cameraphoto w", ""+Secondary_Activity.SA.cameraSurface.getWidth());
+                    Log.d("photo h", ""+photo.getHeight());
+                    Log.d("cameraphoto h", ""+Secondary_Activity.SA.cameraSurface.getHeight());
+
+                    photo = Bitmap.createScaledBitmap(photo,Secondary_Activity.SA.cameraSurface.getHeight(), Secondary_Activity.SA.cameraSurface.getWidth() , false);
                     Bitmap rotatedPhoto = Bitmap.createBitmap(photo,0,0,photo.getWidth(), photo.getHeight(), m, true);
 
                     Canvas canvas = new Canvas(map);
