@@ -25,6 +25,7 @@ import android.hardware.Camera.FaceDetectionListener;
 import android.hardware.Camera.Face;
 import java.util.TreeMap;
 import android.hardware.Camera.CameraInfo;
+import android.hardware.SensorManager;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -139,10 +140,9 @@ public class CameraClass {
             Map<Integer, ImageView> newMasks = new TreeMap<>();
             @Override
             public void onFaceDetection(Face[] faces, Camera c) {
-
-                //Log.d("found faces:", faces.length + "");
-
                 ImageView view;
+                //Log.d("found faces:", faces.length + "");getOrientation
+                //Log.d("cameraOrientation", mCameraOrientation + "");
                 if(faces.length > 0) {
 
 
@@ -152,7 +152,9 @@ public class CameraClass {
                     Log.d("" + yValue, "Y");
                 }
                 while(0 < masks.size() ) {
+
                     view = masks.get( masks.size() - 1 );
+
                     view.setVisibility(View.INVISIBLE);
                     masks.remove(view);
                 }
@@ -169,8 +171,17 @@ public class CameraClass {
                     view = masks.get(i);
                     Integer xValue;
                     Integer yValue;
+                    if(camID == findFrontFacingCamera()) {
+                        yValue = -view.getLayoutParams().width / 2 + (int)- ((double) ((faces[i].rect.exactCenterX() + 1000) * (double) ((double) mainActivity.getWindowManager().getDefaultDisplay().getHeight() / (double) 2000))) + mainActivity.getWindowManager().getDefaultDisplay().getHeight();
+                        Log.d("front facing", "facing");
+                    } else {
+                        //Log.d("back facing", "back");
+                        yValue = -view.getLayoutParams().width / 2 + (int)+ ((double) ((faces[i].rect.exactCenterX() + 1000) * (double) ((double) mainActivity.getWindowManager().getDefaultDisplay().getHeight() / (double) 2000)));
+                        Log.d("xVal", yValue + "");
+
+                    }
                     xValue = -view.getLayoutParams().height / 2 + (int) -((double) ((faces[i].rect.exactCenterY() - 1000) * (double) ((double) mainActivity.getWindowManager().getDefaultDisplay().getWidth() / (double) 2000)));
-                    yValue = -view.getLayoutParams().width / 2 + (int)- ((double) ((faces[i].rect.exactCenterX() + 1000) * (double) ((double) mainActivity.getWindowManager().getDefaultDisplay().getHeight() / (double) 2000))) + mainActivity.getWindowManager().getDefaultDisplay().getHeight();
+
 
 
 
