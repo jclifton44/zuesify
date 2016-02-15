@@ -234,6 +234,8 @@ public class CameraClass {
                 Bitmap sticker = BitmapFactory.decodeResource(cameraContext.getResources(), Secondary_Activity.sticker);
 
                 Matrix m = new Matrix();
+                Matrix flip = new Matrix();
+                flip.setScale(-1f, 1f);
                 m.postRotate(270);
                 try {
                     fout = new FileOutputStream(file);
@@ -241,16 +243,17 @@ public class CameraClass {
 
                     photo = Bitmap.createScaledBitmap(photo,Secondary_Activity.SA.cameraSurface.getHeight(), Secondary_Activity.SA.cameraSurface.getWidth() , false);
                     Bitmap rotatedPhoto = Bitmap.createBitmap(photo,0,0,photo.getWidth(), photo.getHeight(), m, true);
+                    flip.postTranslate(rotatedPhoto.getWidth(),0);
 
                     Canvas canvas = new Canvas(map);
-                    canvas.drawBitmap(rotatedPhoto, 0,0, null);
+                    canvas.drawBitmap(rotatedPhoto, flip, null);
                     for(int i = 0; i < masks.size(); i++) {
                         float ratio = (float) faceArray.get(i).rect.height() / 1500f;
                         Integer newHeight = (int)((float)(ratio*sticker.getHeight()));
                         Integer newWidth = (int)((float)(ratio*sticker.getWidth()));
                         Bitmap scaledSticker = Bitmap.createScaledBitmap(sticker, newWidth, newHeight, false);
 
-                        canvas.drawBitmap(scaledSticker, masks.get(i).getX(),masks.get(i).getY() , null);
+                        canvas.drawBitmap(scaledSticker,masks.get(i).getX(),masks.get(i).getY() , null);
 
                     }
                     map.compress(Bitmap.CompressFormat.PNG, 100, fout);
