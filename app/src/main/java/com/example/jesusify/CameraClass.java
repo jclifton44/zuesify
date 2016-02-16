@@ -246,15 +246,22 @@ public class CameraClass {
 
                 Matrix m = new Matrix();
                 Matrix flip = new Matrix();
-                flip.setScale(-1f, 1f);
-                m.postRotate(270);
+                if(findFrontFacingCamera() == camID) {
+                    flip.setScale(-1f, 1f);
+                    m.postRotate(270);
+                } else {
+                    m.postRotate(90);
+                }
+
                 try {
                     fout = new FileOutputStream(file);
                     Bitmap photo = BitmapFactory.decodeByteArray(data, 0, data.length);
 
                     photo = Bitmap.createScaledBitmap(photo,Secondary_Activity.SA.cameraSurface.getHeight(), Secondary_Activity.SA.cameraSurface.getWidth() , false);
                     Bitmap rotatedPhoto = Bitmap.createBitmap(photo,0,0,photo.getWidth(), photo.getHeight(), m, true);
-                    flip.postTranslate(rotatedPhoto.getWidth(),0);
+                    if(findFrontFacingCamera() == camID) {
+                        flip.postTranslate(rotatedPhoto.getWidth(), 0);
+                    }
 
                     Canvas canvas = new Canvas(map);
                     canvas.drawBitmap(rotatedPhoto, flip, null);
@@ -263,8 +270,16 @@ public class CameraClass {
                         Integer newHeight = (int)((float)(ratio*sticker.getHeight()));
                         Integer newWidth = (int)((float)(ratio*sticker.getWidth()));
                         Bitmap scaledSticker = Bitmap.createScaledBitmap(sticker, newWidth, newHeight, false);
+                        Float xValue = masks.get(i).getX();
+                        Float yValue;
+                        if(camID == findFrontFacingCamera()) {
+                            yValue = masks.get(i).getY();
+                        } else {
+                            yValue = masks.get(i).getY();
 
-                        canvas.drawBitmap(scaledSticker,masks.get(i).getX(),masks.get(i).getY() , null);
+                        }
+                        Log.d("yValue", yValue + "");
+                        canvas.drawBitmap(scaledSticker,xValue,yValue , null);
 
                     }
                     map.compress(Bitmap.CompressFormat.PNG, 100, fout);
