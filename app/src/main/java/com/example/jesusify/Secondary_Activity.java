@@ -50,7 +50,9 @@ public class Secondary_Activity extends Activity  {
     public static int sticker = R.drawable.doge_sticker;
     Camera mCamera = null;
     static int act = -1;
-
+    public static ImageView takePhoto;
+    public static ImageView switchCams;
+    public static ImageView shareIcon;
     static boolean front_facing_camera = false;
     private static Context context;
     private static Resources resources;
@@ -100,7 +102,7 @@ public class Secondary_Activity extends Activity  {
 
         context = getApplicationContext();
         resources = getResources();
-        ImageView button = (ImageView) findViewById(R.id.iv2);
+        switchCams = (ImageView) findViewById(R.id.iv2);
         ImageView selector1 = (ImageView) findViewById(R.id.s1_doge);
         ImageView selector2 = (ImageView) findViewById(R.id.s2_hera);
         ImageView selector3 = (ImageView) findViewById(R.id.s3_zeus);
@@ -136,7 +138,7 @@ public class Secondary_Activity extends Activity  {
 
 
         });
-        button.setOnClickListener(new OnClickListener() {
+        switchCams.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 //sh_callback.surfaceDestroyed(surface_holder);
                 DrawView.customCamera.switchCams();
@@ -145,11 +147,26 @@ public class Secondary_Activity extends Activity  {
 
 
         });
-        ImageView blue = (ImageView) findViewById(R.id.iv1);
-        blue.setOnClickListener(new OnClickListener() {
+
+        shareIcon = (ImageView) findViewById(R.id.iv3);
+        shareIcon.setVisibility(View.INVISIBLE);
+        shareIcon.setOnClickListener(new OnClickListener() {
+            @SuppressWarnings("unused")
+            public void onClick(View v) {
+
+            }
+        });
+
+
+        takePhoto = (ImageView) findViewById(R.id.iv1);
+        takePhoto.setOnClickListener(new OnClickListener() {
             @SuppressWarnings("unused")
             public void onClick(View v) {
                 DrawView.customCamera.takePhoto();
+                Secondary_Activity.takePhoto.setVisibility(View.INVISIBLE);
+                Secondary_Activity.switchCams.setVisibility(View.INVISIBLE);
+                Secondary_Activity.shareIcon.setVisibility(View.VISIBLE);
+
                 //if(isValid)
 //                Bitmap map = Bitmap.createBitmap(cameraSurface.getWidth(), cameraSurface.getHeight(), Bitmap.Config.ARGB_8888);
 //                Canvas canvas = new Canvas(map);
