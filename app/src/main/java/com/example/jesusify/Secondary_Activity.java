@@ -5,6 +5,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.media.FaceDetector;
 import android.media.FaceDetector.Face;
 import android.os.Bundle;
@@ -42,10 +46,11 @@ import android.content.res.Resources;
 import android.content.res.Configuration;
 import android.opengl.GLES20;
 
-public class Secondary_Activity extends Activity {
+public class Secondary_Activity extends Activity  {
     public static int sticker = R.drawable.doge_sticker;
     Camera mCamera = null;
     static int act = -1;
+
     static boolean front_facing_camera = false;
     private static Context context;
     private static Resources resources;
@@ -61,7 +66,9 @@ public class Secondary_Activity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
         SA = this;
         Log.d("In Create","CREATE");
 		//ActionBar actionBar = getActionBar();
@@ -97,6 +104,8 @@ public class Secondary_Activity extends Activity {
         ImageView selector1 = (ImageView) findViewById(R.id.s1_doge);
         ImageView selector2 = (ImageView) findViewById(R.id.s2_hera);
         ImageView selector3 = (ImageView) findViewById(R.id.s3_zeus);
+        ImageView selector4 = (ImageView) findViewById(R.id.s4_grumpycat);
+
         selector1.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 sticker = R.drawable.doge_sticker;
@@ -120,7 +129,13 @@ public class Secondary_Activity extends Activity {
 
 
         });
+        selector4.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                sticker = R.drawable.grumpycat_sticker;
+            }
 
+
+        });
         button.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 //sh_callback.surfaceDestroyed(surface_holder);
@@ -231,6 +246,10 @@ public class Secondary_Activity extends Activity {
             Log.d("In Restart","RESTART");
 
         }
+
+
+
+
         @Override
         public void onResume() {
             super.onResume();  // Always call the superclass method first

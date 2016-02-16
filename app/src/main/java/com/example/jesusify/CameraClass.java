@@ -3,6 +3,7 @@ package com.example.jesusify;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.Map;
 
 import java.io.FileOutputStream;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -26,6 +28,7 @@ import android.hardware.Camera.Face;
 import java.util.TreeMap;
 import android.hardware.Camera.CameraInfo;
 import android.hardware.SensorManager;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -57,6 +60,7 @@ public class CameraClass {
     static Camera.PictureCallback picture_raw;
     static Camera.PictureCallback picture_postview;
     static Camera.PictureCallback picture_jpeg;
+    static String fileName = "null.jpg";
     static String storagePath = Environment.getExternalStorageDirectory().toString();
     private static ArrayList<Face> faceArray = new ArrayList<>();
 
@@ -70,7 +74,12 @@ public class CameraClass {
 		// TODO Auto-generated constructor stub
 	}
     public void takePhoto() {
-        mCamera.takePicture(shutter,picture_raw,picture_postview,picture_jpeg);
+        fileName = getFileName();
+        mCamera.takePicture(shutter, picture_raw, picture_postview, picture_jpeg);
+        Log.d(storagePath + getFileName(), "FIleName");
+        //Intent photoPreview = new Intent(Secondary_Activity.SA.getApplicationContext(), PhotoHandler.class);
+        //photoPreview.putExtra("path", storagePath +  "/" +  "FILENAME.jpg");
+        //Secondary_Activity.SA.startActivity(photoPreview);
     }
     public static CameraClass getCustomCameraInstance(SurfaceHolder sh, Context c, int camOnClose) {
         cameraContext = c;
@@ -215,6 +224,9 @@ public class CameraClass {
 //        startPreviewDetection();
 //
 //    }
+    public String getFileName() {
+        return (System.currentTimeMillis()  % 100) + "";
+    }
     public void startPreviewDetection() {
         shutter = new Camera.ShutterCallback() {
             @Override
@@ -237,11 +249,10 @@ public class CameraClass {
         picture_jpeg = new Camera.PictureCallback() {
             @Override
             public void onPictureTaken(byte[] data, Camera c) {
-                Log.d("Camera","photo");
                 FileOutputStream fout = null;
-                File file = new File(storagePath, "FacePicture.jpg");
-                Log.d(storagePath.toString(), "Storage String");
+                File file = new File(storagePath,  "FILENAME.png");
                 Bitmap map = Bitmap.createBitmap(Secondary_Activity.cameraSurface.getWidth(), Secondary_Activity.cameraSurface.getHeight(), Bitmap.Config.ARGB_8888);
+
                 Bitmap sticker = BitmapFactory.decodeResource(cameraContext.getResources(), Secondary_Activity.sticker);
 
                 Matrix m = new Matrix();
@@ -278,7 +289,6 @@ public class CameraClass {
                             yValue = masks.get(i).getY();
 
                         }
-                        Log.d("yValue", yValue + "");
                         canvas.drawBitmap(scaledSticker,xValue,yValue , null);
 
                     }
@@ -287,6 +297,9 @@ public class CameraClass {
                 } catch (Exception e) {
                     //exception
                 }
+                //Intent photoPreview = new Intent(Secondary_Activity.SA.getApplicationContext(), PhotoHandler.class);
+                //photoPreview.putExtra("path", storagePath +  "/" +  "FILENAME.png");
+                //Secondary_Activity.SA.startActivity(photoPreview);
             }
         };
         resizeResolutionKitKat(mCamera);

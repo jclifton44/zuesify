@@ -1,64 +1,53 @@
 package com.example.jesusify;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import android.content.Context;
-import android.hardware.Camera;
-import android.hardware.Camera.PictureCallback;
-import android.os.Environment;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Bundle;
+import android.os.Handler;
+import android.app.ActionBar;
+import android.app.Activity;
+import android.content.Intent;
 import android.util.Log;
-import android.widget.Toast;
+import android.view.Menu;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
-public class PhotoHandler implements PictureCallback {
+import com.example.jesusify.Secondary_Activity;
 
-  private final Context context;
+public class PhotoHandler extends Activity {
+  @Override
 
-  public PhotoHandler(Context context) {
-    this.context = context;
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    //ActionBar actionBar = getActionBar();
+    //actionBar.hide();
+    Bundle filePath = getIntent().getExtras();
+
+    setContentView(R.layout.activity_preview);
+    ImageView imagePreview = (ImageView) findViewById(R.id.imagePreview);
+    Bitmap bm = BitmapFactory.decodeFile((String)filePath.get("path"));
+    BitmapDrawable picture = new BitmapDrawable(getResources(), bm);
+    imagePreview.setBackground(picture);
+
+
+
+
   }
+
 
   @Override
-  public void onPictureTaken(byte[] data, Camera camera) {
+  public void onDestroy()
+  {
+    super.onDestroy();
 
-    File pictureFileDir = getDir();
-
-    if (!pictureFileDir.exists() && !pictureFileDir.mkdirs()) {
-
-    //  Log.d(Secondary_Activity.DEBUG_TAG, "Can't create directory to save image.");
-      Toast.makeText(context, "Can't create directory to save image.",
-          Toast.LENGTH_LONG).show();
-      return;
-
-    }
-
-    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyymmddhhmmss");
-    String date = dateFormat.format(new Date());
-    String photoFile = "Picture_" + date + ".jpg";
-
-    String filename = pictureFileDir.getPath() + File.separator + photoFile;
-
-    File pictureFile = new File(filename);
-
-    try {
-      FileOutputStream fos = new FileOutputStream(pictureFile);
-      fos.write(data);
-      fos.close();
-      Toast.makeText(context, "New Image saved:" + photoFile,
-          Toast.LENGTH_LONG).show();
-    } catch (Exception error) {
-     // Log.d(Secondary_Activity.DEBUG_TAG, "File" + filename + "not saved: "
-    //      + error.getMessage());
-      Toast.makeText(context, "Image could not be saved.",
-          Toast.LENGTH_LONG).show();
-    }
+  }
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    // Inflate the menu; this adds items to the action bar if it is present.
+    getMenuInflater().inflate(R.menu.main, menu);
+    return true;
   }
 
-  private File getDir() {
-    File sdDir = Environment
-      .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-    return new File(sdDir, "CameraAPIDemo");
-  }
-} 
+}
+	
