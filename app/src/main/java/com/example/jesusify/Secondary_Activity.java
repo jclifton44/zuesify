@@ -24,6 +24,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -50,9 +51,13 @@ public class Secondary_Activity extends Activity  {
     public static int sticker = R.drawable.doge_sticker;
     Camera mCamera = null;
     static int act = -1;
+    public static HorizontalScrollView faceSelect = null;
     public static ImageView takePhoto;
     public static ImageView switchCams;
     public static ImageView shareIcon;
+    public static ImageView saveIcon;
+    public static ImageView backIcon;
+
     static boolean front_facing_camera = false;
     private static Context context;
     private static Resources resources;
@@ -70,7 +75,6 @@ public class Secondary_Activity extends Activity  {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-
         SA = this;
         Log.d("In Create","CREATE");
 		//ActionBar actionBar = getActionBar();
@@ -103,6 +107,17 @@ public class Secondary_Activity extends Activity  {
         context = getApplicationContext();
         resources = getResources();
         switchCams = (ImageView) findViewById(R.id.iv2);
+        shareIcon = (ImageView) findViewById(R.id.iv3);
+        saveIcon = (ImageView) findViewById(R.id.iv4);
+        backIcon = (ImageView) findViewById(R.id.iv5);
+
+        faceSelect = (HorizontalScrollView)findViewById(R.id.faceSelect);
+        shareIcon.setVisibility(View.INVISIBLE);
+        saveIcon.setVisibility(View.INVISIBLE);
+        backIcon.setVisibility(View.INVISIBLE);
+
+
+
         ImageView selector1 = (ImageView) findViewById(R.id.s1_doge);
         ImageView selector2 = (ImageView) findViewById(R.id.s2_hera);
         ImageView selector3 = (ImageView) findViewById(R.id.s3_zeus);
@@ -148,9 +163,20 @@ public class Secondary_Activity extends Activity  {
 
         });
 
-        shareIcon = (ImageView) findViewById(R.id.iv3);
-        shareIcon.setVisibility(View.INVISIBLE);
+
         shareIcon.setOnClickListener(new OnClickListener() {
+            @SuppressWarnings("unused")
+            public void onClick(View v) {
+
+            }
+        });
+        saveIcon.setOnClickListener(new OnClickListener() {
+            @SuppressWarnings("unused")
+            public void onClick(View v) {
+
+            }
+        });
+        backIcon.setOnClickListener(new OnClickListener() {
             @SuppressWarnings("unused")
             public void onClick(View v) {
 
@@ -163,9 +189,12 @@ public class Secondary_Activity extends Activity  {
             @SuppressWarnings("unused")
             public void onClick(View v) {
                 DrawView.customCamera.takePhoto();
+                Secondary_Activity.faceSelect.setVisibility(View.INVISIBLE);
                 Secondary_Activity.takePhoto.setVisibility(View.INVISIBLE);
                 Secondary_Activity.switchCams.setVisibility(View.INVISIBLE);
                 Secondary_Activity.shareIcon.setVisibility(View.VISIBLE);
+                Secondary_Activity.saveIcon.setVisibility(View.VISIBLE);
+                Secondary_Activity.backIcon.setVisibility(View.VISIBLE);
 
                 //if(isValid)
 //                Bitmap map = Bitmap.createBitmap(cameraSurface.getWidth(), cameraSurface.getHeight(), Bitmap.Config.ARGB_8888);
