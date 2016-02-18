@@ -73,6 +73,9 @@ public class CameraClass {
 //        }
 		// TODO Auto-generated constructor stub
 	}
+    public void restartPreviewDisplay() {
+        mCamera.startPreview();
+    }
     public void takePhoto() {
         fileName = getFileName();
         mCamera.takePicture(shutter, picture_raw, picture_postview, picture_jpeg);
@@ -250,7 +253,7 @@ public class CameraClass {
             @Override
             public void onPictureTaken(byte[] data, Camera c) {
                 FileOutputStream fout = null;
-                File file = new File(storagePath,  "FILENAME.png");
+                File file = new File(storagePath,  "TMP.png");
                 Bitmap map = Bitmap.createBitmap(Secondary_Activity.cameraSurface.getWidth(), Secondary_Activity.cameraSurface.getHeight(), Bitmap.Config.ARGB_8888);
 
                 Bitmap sticker = BitmapFactory.decodeResource(cameraContext.getResources(), Secondary_Activity.sticker);
@@ -294,6 +297,8 @@ public class CameraClass {
                     }
                     map.compress(Bitmap.CompressFormat.PNG, 100, fout);
                     fout.close();
+                    Secondary_Activity.fileSaved = true;
+                    Secondary_Activity.saveIcon.setImageAlpha(1000);
                 } catch (Exception e) {
                     //exception
                 }

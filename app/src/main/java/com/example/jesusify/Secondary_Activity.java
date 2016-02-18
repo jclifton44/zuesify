@@ -49,6 +49,7 @@ import android.opengl.GLES20;
 
 public class Secondary_Activity extends Activity  {
     public static int sticker = R.drawable.doge_sticker;
+    public static Boolean fileSaved = false;
     Camera mCamera = null;
     static int act = -1;
     public static HorizontalScrollView faceSelect = null;
@@ -173,13 +174,23 @@ public class Secondary_Activity extends Activity  {
         saveIcon.setOnClickListener(new OnClickListener() {
             @SuppressWarnings("unused")
             public void onClick(View v) {
+                if(fileSaved) {
+                    Log.d("filesaved...","saved");
+                    fileSaved = false;
 
+                    //open temp file
+
+                    //save in best spot
+                }
             }
         });
         backIcon.setOnClickListener(new OnClickListener() {
             @SuppressWarnings("unused")
             public void onClick(View v) {
-
+                //delete tmp.png
+                //deleteFile(CameraClass.storagePath + "/TMP.png");
+                cameraOn();
+                DrawView.customCamera.restartPreviewDisplay();
             }
         });
 
@@ -195,6 +206,8 @@ public class Secondary_Activity extends Activity  {
                 Secondary_Activity.shareIcon.setVisibility(View.VISIBLE);
                 Secondary_Activity.saveIcon.setVisibility(View.VISIBLE);
                 Secondary_Activity.backIcon.setVisibility(View.VISIBLE);
+                Secondary_Activity.saveIcon.setImageAlpha(100);
+
 
                 //if(isValid)
 //                Bitmap map = Bitmap.createBitmap(cameraSurface.getWidth(), cameraSurface.getHeight(), Bitmap.Config.ARGB_8888);
@@ -215,6 +228,15 @@ public class Secondary_Activity extends Activity  {
 //                cameraHolder.unlockCanvasAndPost(canvas);
             }
         });
+
+    }
+    public void cameraOn() {
+        Secondary_Activity.faceSelect.setVisibility(View.VISIBLE);
+        Secondary_Activity.takePhoto.setVisibility(View.VISIBLE);
+        Secondary_Activity.switchCams.setVisibility(View.VISIBLE);
+        Secondary_Activity.shareIcon.setVisibility(View.INVISIBLE);
+        Secondary_Activity.saveIcon.setVisibility(View.INVISIBLE);
+        Secondary_Activity.backIcon.setVisibility(View.INVISIBLE);
 
     }
     public ImageView getImageInstance(int percent) {
