@@ -253,7 +253,7 @@ public class CameraClass {
             @Override
             public void onPictureTaken(byte[] data, Camera c) {
                 FileOutputStream fout = null;
-                File file = new File(storagePath,  "TMP.png");
+                File file = new File(storagePath,  "TMP.jpg");
                 Bitmap map = Bitmap.createBitmap(Secondary_Activity.cameraSurface.getWidth(), Secondary_Activity.cameraSurface.getHeight(), Bitmap.Config.ARGB_8888);
 
                 Bitmap sticker = BitmapFactory.decodeResource(cameraContext.getResources(), Secondary_Activity.sticker);
@@ -295,9 +295,9 @@ public class CameraClass {
                         canvas.drawBitmap(scaledSticker,xValue,yValue , null);
 
                     }
-                    map.compress(Bitmap.CompressFormat.PNG, 100, fout);
+                    map.compress(Bitmap.CompressFormat.JPEG, 100, fout);
                     fout.close();
-                    Secondary_Activity.fileSaved = true;
+                    Secondary_Activity.fileReady = true;
                     Secondary_Activity.saveIcon.setImageAlpha(1000);
                 } catch (Exception e) {
                     //exception

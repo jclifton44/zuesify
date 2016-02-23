@@ -3,6 +3,9 @@ package com.example.jesusify;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.FileInputStream;
+
+import java.io.InputStream;
 import java.io.OutputStream;
 
 import android.hardware.Sensor;
@@ -11,6 +14,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.FaceDetector;
 import android.media.FaceDetector.Face;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -49,7 +53,7 @@ import android.opengl.GLES20;
 
 public class Secondary_Activity extends Activity  {
     public static int sticker = R.drawable.doge_sticker;
-    public static Boolean fileSaved = false;
+    public static Boolean fileReady = false;
     Camera mCamera = null;
     static int act = -1;
     public static HorizontalScrollView faceSelect = null;
@@ -169,16 +173,49 @@ public class Secondary_Activity extends Activity  {
             @SuppressWarnings("unused")
             public void onClick(View v) {
 
+                File imageFile = new File(storagePath + "/TMP.jpg");
+
+                Uri uri = Uri.fromFile(imageFile);
+                Intent shareIntent = new Intent();
+                shareIntent.setAction(Intent.ACTION_SEND);
+                shareIntent.setType("image/*");
+                shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+                startActivity(Intent.createChooser(shareIntent,"Share Photo"));
+
             }
         });
         saveIcon.setOnClickListener(new OnClickListener() {
             @SuppressWarnings("unused")
             public void onClick(View v) {
-                if(fileSaved) {
+                if(fileReady) {
                     Log.d("filesaved...","saved");
-                    fileSaved = false;
+                    fileReady = false;
+                    InputStream input;
+                    OutputStream output;
+                    try {
+                        File newFile = new File(storagePath + "/DCIM/Camera/");
+                        if (!newFile.exists()) {
+                            newFile.mkdirs();
+                        }
+                        input = new FileInputStream(storagePath + "/TMP.jpg");
+                        output = new FileOutputStream(storagePath + "/DCIM/Camera/zeus" + System.currentTimeMillis() + ".jpg");
+                        byte[] buffer = new byte[1024];
+                        int readVar;
+                        while((readVar = input.read(buffer)) != -1 ) {
+                            output.write(buffer, 0, readVar);
+                        }
+                        input.close();
+                        output.flush();
+                        output.close();
+                        input = null;
+                        output = null;
 
-                    //open temp file
+
+                    } catch(Exception e) {
+
+                    }
+
+                        //open temp file
 
                     //save in best spot
                 }
@@ -189,6 +226,8 @@ public class Secondary_Activity extends Activity  {
             public void onClick(View v) {
                 //delete tmp.png
                 //deleteFile(CameraClass.storagePath + "/TMP.png");
+                new File(storagePath + "/TMP.jpg").delete();
+
                 cameraOn();
                 DrawView.customCamera.restartPreviewDisplay();
             }
