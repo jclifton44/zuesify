@@ -6,7 +6,13 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
+import android.view.DragEvent;
 import android.view.Menu;
+import android.view.View;
+import android.view.View.OnDragListener;
+
+import android.widget.HorizontalScrollView;
+import android.widget.TextView;
 
 import com.example.jesusify.Secondary_Activity;
 
@@ -15,7 +21,24 @@ public class Gallery extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gallery);
+        HorizontalScrollView hsv = (HorizontalScrollView) findViewById(R.id.galleryPhotoView);
+        int scrollViewWidth = hsv.getWidth();
+        //image1  0
+        //image2 w/3
+        //image3 2*w/3
+        /*
+        populate list of all images in a list for zuesify
+        set image1 to .get(0), image2 to .get(1) image3 to .get(2)
+        slide to image closest
+        if sliding from image2 to image3 AND image3 doesn't have the last image
+        slide to image closest, set image2 to what image3 is
+        set scroll to w/3
+        update image3 for nextImage
+
+         */
+
     }
+
 
 
     @Override
