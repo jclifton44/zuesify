@@ -18,6 +18,7 @@
 
 
     <HorizontalScrollView
+        android:id="@+id/faceSelect"
         android:layout_width="match_parent"
         android:layout_height="300px"
         android:layout_alignParentTop="true"
@@ -33,28 +34,42 @@
 
             >
             <ImageView
-                android:id="@+id/s1"
+                android:id="@+id/s1_doge"
                 android:layout_width="280px"
                 android:layout_height="280px"
                 android:layout_marginRight="20dp"
                 android:src="@drawable/doge_sticker" />
 
             <ImageView
-                android:id="@+id/s2"
+                android:id="@+id/s2_hera"
                 android:layout_width="280px"
                 android:layout_height="280px"
                 android:layout_marginRight="20dp"
                 android:src="@drawable/hera_sticker" />
             <ImageView
-                android:id="@+id/s3"
+                android:id="@+id/s3_zeus"
                 android:layout_width="280px"
                 android:layout_height="280px"
                 android:layout_marginRight="20dp"
                 android:src="@drawable/zeus_sticker" />
+
+            <ImageView
+                android:id="@+id/s4_grumpycat"
+                android:layout_width="280px"
+                android:layout_height="280px"
+                android:layout_marginRight="20dp"
+                android:src="@drawable/grumpycat_sticker" />
         </LinearLayout>
 
         </HorizontalScrollView>
-
+    <ImageView
+        android:id="@+id/iv0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginRight="20dp"
+        android:src="@drawable/ic_launcher_dot" />
     <ImageView
         android:id="@+id/iv1"
         android:layout_width="wrap_content"
@@ -74,5 +89,32 @@
 
         android:layout_marginTop="15dp"
         android:src="@drawable/ic_action_flip" />
+    <ImageView
+        android:id="@+id/iv3"
+        android:layout_width="110px"
+        android:layout_height="110px"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+
+        android:layout_marginTop="15dp"
+        android:src="@drawable/share_icon" />
+    <ImageView
+        android:id="@+id/iv4"
+        android:layout_width="110px"
+        android:layout_height="110px"
+        android:layout_above="@id/iv3"
+        android:layout_alignParentLeft="true"
+
+        android:layout_marginTop="15dp"
+        android:src="@drawable/save_icon" />
+    <ImageView
+        android:id="@+id/iv5"
+        android:layout_width="110px"
+        android:layout_height="110px"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+
+        android:layout_marginTop="15dp"
+        android:src="@drawable/back_arrow" />
 
 </RelativeLayout>

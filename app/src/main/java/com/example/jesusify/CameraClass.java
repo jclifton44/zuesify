@@ -253,7 +253,7 @@ public class CameraClass {
             @Override
             public void onPictureTaken(byte[] data, Camera c) {
                 FileOutputStream fout = null;
-                File file = new File(storagePath,  "TMP.jpg");
+                File file = new File(storagePath,  "ZeusifyPhoto.jpg");
                 Bitmap map = Bitmap.createBitmap(Secondary_Activity.cameraSurface.getWidth(), Secondary_Activity.cameraSurface.getHeight(), Bitmap.Config.ARGB_8888);
 
                 Bitmap sticker = BitmapFactory.decodeResource(cameraContext.getResources(), Secondary_Activity.sticker);

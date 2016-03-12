@@ -58,6 +58,8 @@ public class Secondary_Activity extends Activity  {
     static int act = -1;
     public static HorizontalScrollView faceSelect = null;
     public static ImageView takePhoto;
+    public static ImageView viewGallery;
+
     public static ImageView switchCams;
     public static ImageView shareIcon;
     public static ImageView saveIcon;
@@ -111,6 +113,7 @@ public class Secondary_Activity extends Activity  {
 
         context = getApplicationContext();
         resources = getResources();
+        viewGallery = (ImageView) findViewById(R.id.iv0);
         switchCams = (ImageView) findViewById(R.id.iv2);
         shareIcon = (ImageView) findViewById(R.id.iv3);
         saveIcon = (ImageView) findViewById(R.id.iv4);
@@ -158,9 +161,21 @@ public class Secondary_Activity extends Activity  {
 
 
         });
+        viewGallery.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                //sh_callback.surfaceDestroyed(surface_holder);
+
+                Intent gallery = new Intent(Secondary_Activity.this, Gallery.class);
+                startActivity(gallery);
+                //Secondary_Activity.cameraSurface.nextCameraSize(Secondary_Activity.cameraSurface.mCamera);
+            }
+
+
+        });
         switchCams.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 //sh_callback.surfaceDestroyed(surface_holder);
+
                 DrawView.customCamera.switchCams();
                 //Secondary_Activity.cameraSurface.nextCameraSize(Secondary_Activity.cameraSurface.mCamera);
             }
@@ -173,14 +188,14 @@ public class Secondary_Activity extends Activity  {
             @SuppressWarnings("unused")
             public void onClick(View v) {
 
-                File imageFile = new File(storagePath + "/TMP.jpg");
+                File imageFile = new File(storagePath + "/ZeusifyPhoto.jpg");
 
                 Uri uri = Uri.fromFile(imageFile);
                 Intent shareIntent = new Intent();
                 shareIntent.setAction(Intent.ACTION_SEND);
                 shareIntent.setType("image/*");
                 shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
-                startActivity(Intent.createChooser(shareIntent,"Share Photo"));
+                startActivity(Intent.createChooser(shareIntent, "Share Photo"));
 
             }
         });
@@ -197,8 +212,8 @@ public class Secondary_Activity extends Activity  {
                         if (!newFile.exists()) {
                             newFile.mkdirs();
                         }
-                        input = new FileInputStream(storagePath + "/TMP.jpg");
-                        output = new FileOutputStream(storagePath + "/DCIM/Camera/zeus" + System.currentTimeMillis() + ".jpg");
+                        input = new FileInputStream(storagePath + "/ZeusifyPhoto.jpg");
+                        output = new FileOutputStream(storagePath + "/DCIM/Camera/zeusify_" + System.currentTimeMillis() + ".jpg");
                         byte[] buffer = new byte[1024];
                         int readVar;
                         while((readVar = input.read(buffer)) != -1 ) {
@@ -224,9 +239,9 @@ public class Secondary_Activity extends Activity  {
         backIcon.setOnClickListener(new OnClickListener() {
             @SuppressWarnings("unused")
             public void onClick(View v) {
-                //delete tmp.png
-                //deleteFile(CameraClass.storagePath + "/TMP.png");
-                new File(storagePath + "/TMP.jpg").delete();
+                //delete ZeusifyPhoto.png
+                //deleteFile(CameraClass.storagePath + "/ZeusifyPhoto.png");
+                new File(storagePath + "/ZeusifyPhoto.jpg").delete();
 
                 cameraOn();
                 DrawView.customCamera.restartPreviewDisplay();
@@ -242,6 +257,7 @@ public class Secondary_Activity extends Activity  {
                 Secondary_Activity.faceSelect.setVisibility(View.INVISIBLE);
                 Secondary_Activity.takePhoto.setVisibility(View.INVISIBLE);
                 Secondary_Activity.switchCams.setVisibility(View.INVISIBLE);
+                Secondary_Activity.viewGallery.setVisibility(View.INVISIBLE);
                 Secondary_Activity.shareIcon.setVisibility(View.VISIBLE);
                 Secondary_Activity.saveIcon.setVisibility(View.VISIBLE);
                 Secondary_Activity.backIcon.setVisibility(View.VISIBLE);
@@ -273,6 +289,7 @@ public class Secondary_Activity extends Activity  {
         Secondary_Activity.faceSelect.setVisibility(View.VISIBLE);
         Secondary_Activity.takePhoto.setVisibility(View.VISIBLE);
         Secondary_Activity.switchCams.setVisibility(View.VISIBLE);
+        Secondary_Activity.viewGallery.setVisibility(View.VISIBLE);
         Secondary_Activity.shareIcon.setVisibility(View.INVISIBLE);
         Secondary_Activity.saveIcon.setVisibility(View.INVISIBLE);
         Secondary_Activity.backIcon.setVisibility(View.INVISIBLE);
