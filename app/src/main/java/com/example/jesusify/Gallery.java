@@ -14,9 +14,11 @@ import android.view.View;
 import android.view.View.OnDragListener;
 
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.AbsListView.OnScrollListener;
 
 import com.example.jesusify.Secondary_Activity;
 
@@ -32,6 +34,26 @@ public class Gallery extends Activity {
         HorizontalScrollView hsv = (HorizontalScrollView) findViewById(R.id.galleryPhotoView);
         int scrollViewWidth = hsv.getWidth();
         loadImages();
+        OnScrollListener flipper = new OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view ==, int scrollState) {
+                if(scrollState == SCROLL_STATE_FLING || scrollState == SCROLL_STATE_IDLE) {
+                    //if(lastScrollPosition == -1) {
+                    //    lastScrollPosition = super.hsv.scroll
+                    //}
+                    //if in idle, scroll to nearest image
+                    //if in fling find direction of fling
+                    //      animate to nearest imge in that particular direction
+                } else if(scrollState == SCROLL_STATE_TOUCH_SCROLL) {
+                    //if scrollstate in touch
+                }
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+            }
+        }
         if(imageCount == 0 ) {
 
         } else if(imageCount == 1) {
