@@ -33,7 +33,7 @@ public class Gallery extends Activity {
         setContentView(R.layout.activity_gallery);
         GalleryHorizontalScrollView hsv = (GalleryHorizontalScrollView) findViewById(R.id.galleryPhotoView);
         int scrollViewWidth = hsv.getWidth();
-        loadImages();
+
 
 
         hsv.ImageWidth = getWindowManager().getDefaultDisplay().getWidth();
@@ -71,57 +71,10 @@ public class Gallery extends Activity {
         update image3 for nextImage
 
          */
-
+        hsv.loadImages();
     }
 
-    public void loadImages() {
-        File container = new File(Secondary_Activity.storagePath + "/DCIM/Camera/");
-        ArrayList<String> galleryList = new ArrayList<String>();
-        Log.d("checking", "files");
-        for(String s: container.list()){
-            Log.d(s,"file");
-            if(s.contains("zeusify_") || s.contains("zeus")) {
-                galleryList.add(s);
-                Log.d(s, "File");
-            }
-        }
-        Log.d(galleryList.size() + "", "Size");
-        ImageView image1 = (ImageView) findViewById(R.id.image1);
-        ImageView image2 = (ImageView) findViewById(R.id.image2);
-        ImageView image3 = (ImageView) findViewById(R.id.image3);
-        Bitmap image1BM = null;
-        Bitmap image2BM = null;
-        Bitmap image3BM = null;
-        imageCount = galleryList.size();
-        if(galleryList.size() == 0) {
-            //set display to 'no photos'
 
-        }
-        if(galleryList.size() == 1) {
-            image1BM = BitmapFactory.decodeFile(Secondary_Activity.storagePath + "/DCIM/Camera/" + galleryList.get(0));
-            image1.setImageBitmap(image1BM);
-            ((ViewGroup)image1.getParent()).removeView(image2);
-            ((ViewGroup)image1.getParent()).removeView(image3);
-            //take two images off
-        }
-        if(galleryList.size() == 2) {
-            image1BM = BitmapFactory.decodeFile(Secondary_Activity.storagePath + "/DCIM/Camera/" + galleryList.get(0));
-            image2BM = BitmapFactory.decodeFile(Secondary_Activity.storagePath + "/DCIM/Camera/" + galleryList.get(1));
-            image1.setImageBitmap(image1BM);
-            image2.setImageBitmap(image2BM);
-            ((ViewGroup)image1.getParent()).removeView(image3);
-
-        }
-        if (galleryList.size() >= 3) {
-            image1BM = BitmapFactory.decodeFile(Secondary_Activity.storagePath + "/DCIM/Camera/" + galleryList.get(0));
-            image2BM = BitmapFactory.decodeFile(Secondary_Activity.storagePath + "/DCIM/Camera/" + galleryList.get(1));
-            image3BM = BitmapFactory.decodeFile(Secondary_Activity.storagePath + "/DCIM/Camera/" + galleryList.get(2));
-            image1.setImageBitmap(image1BM);
-            image2.setImageBitmap(image2BM);
-            image3.setImageBitmap(image3BM);
-
-        }
-    }
 
     @Override
     public void onDestroy()
