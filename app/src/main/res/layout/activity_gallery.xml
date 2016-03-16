@@ -6,10 +6,12 @@
 <com.example.jesusify.GalleryHorizontalScrollView
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:id="@+id/galleryPhotoView">
+    android:id="@+id/galleryPhotoView"
+    android:scrollbars="none">
     <LinearLayout
         android:layout_height="match_parent"
         android:layout_width="wrap_content"
+        android:orientation="horizontal"
         android:id="@+id/photoFrame">
     </LinearLayout>
 </com.example.jesusify.GalleryHorizontalScrollView>

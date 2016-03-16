@@ -81,16 +81,16 @@ public class GalleryHorizontalScrollView extends HorizontalScrollView {
             }
             case MotionEvent.ACTION_MOVE: {
                 Log.d("MOTION_", ev.getAction() + "MOVE");
-                if((ImageWidth * ImageListIndex) + Math.round(startLocation - ev.getX()) <= ImageWidth * ImageListIndex){
+                //if((ImageWidth * ImageListIndex) + Math.round(startLocation - ev.getX()) <= ImageWidth * ImageListIndex){
                     scrollTo((ImageWidth * ImageListIndex) + Math.round(startLocation - ev.getX()), 0);
-                }
+                //}
                 break;
             }
             case MotionEvent.ACTION_UP: {
                 InDrag = false;
                 Log.d("ACTION", ev.getAction() + " UP");
                 Log.d("" + Math.abs(startLocation - ev.getX()), ImageWidth + "");
-                if(Math.abs(startLocation - ev.getX()) > ImageWidth / 2) {
+                if(Math.abs(startLocation - ev.getX()) > ImageWidth / 3) {
                     Log.d("greater than", "than");
                     if (startLocation < ev.getX()) {
                         Log.d("greater than", "greather");
