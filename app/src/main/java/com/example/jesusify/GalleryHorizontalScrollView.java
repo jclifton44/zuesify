@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
@@ -19,7 +20,7 @@ import java.util.ArrayList;
  */
 public class GalleryHorizontalScrollView extends HorizontalScrollView {
     public Integer ImageIndex = 0;
-    public Integer ImageListIndex = 0;
+    public static Integer ImageListIndex = 0;
 
     public Integer ImageWidth = -1;
     public Integer imageCount = -1;
@@ -44,6 +45,17 @@ public class GalleryHorizontalScrollView extends HorizontalScrollView {
     }
 
     Float startLocation = -1f;
+    public String getActiveImagePath() {
+        return Secondary_Activity.storagePath + "/DCIM/Camera/" + galleryList.get(ImageListIndex);
+    }
+    public void removeImage() {
+        galleryList.remove(ImageListIndex);
+        if(ImageListIndex > 0) {
+            ImageListIndex--;
+        }
+        smoothScrollTo(ImageWidth * ImageListIndex, 0);
+        imageCount--;
+    }
     public void loadImages() {
         File container = new File(Secondary_Activity.storagePath + "/DCIM/Camera/");
         galleryList = new ArrayList<String>();
@@ -57,8 +69,10 @@ public class GalleryHorizontalScrollView extends HorizontalScrollView {
         }
         Log.d(GalleryHorizontalScrollView.galleryList.size() + "", "Size");
         LinearLayout photoFrame = (LinearLayout) findViewById(R.id.photoFrame);
+        Integer idContainer = -1;
         for( int i = 0; i < galleryList.size(); i++) {
             ImageView imageView = new ImageView(getContext());
+            imageView.setId(idContainer = View.generateViewId());
             Bitmap image = BitmapFactory.decodeFile(Secondary_Activity.storagePath + "/DCIM/Camera/" + galleryList.get(i));
             photoFrame.addView(imageView);
             imageView.setImageBitmap(image);
@@ -106,7 +120,7 @@ public class GalleryHorizontalScrollView extends HorizontalScrollView {
                     }
 
                 }
-                smoothScrollTo(ImageListIndex*ImageWidth,0);
+                smoothScrollTo(ImageListIndex * ImageWidth, 0);
 
 
                 break;

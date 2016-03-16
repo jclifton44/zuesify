@@ -2,6 +2,7 @@ package com.example.jesusify;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.app.ActionBar;
@@ -27,14 +28,38 @@ import java.util.ArrayList;
 
 public class Gallery extends Activity {
     private Integer imageCount = 0;
+    ImageView share;
+    ImageView delete;
+    public static GalleryHorizontalScrollView hsv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gallery);
-        GalleryHorizontalScrollView hsv = (GalleryHorizontalScrollView) findViewById(R.id.galleryPhotoView);
+        hsv = (GalleryHorizontalScrollView) findViewById(R.id.galleryPhotoView);
         int scrollViewWidth = hsv.getWidth();
+        share = (ImageView)findViewById(R.id.shareButton);
+        delete = (ImageView)findViewById(R.id.deleteButton);
 
+        share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                File imageFile = new File(Gallery.hsv.getActiveImagePath());
 
+                Uri uri = Uri.fromFile(imageFile);
+                Intent shareIntent = new Intent();
+                shareIntent.setAction(Intent.ACTION_SEND);
+                shareIntent.setType("image/*");
+                shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+                startActivity(Intent.createChooser(shareIntent, "Share Photo"));
+            }
+        });
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                File imageFile = new File(Gallery.hsv.getActiveImagePath());
+                hsv.removeImage();
+            }
+        });
 
         hsv.ImageWidth = getWindowManager().getDefaultDisplay().getWidth();
 
