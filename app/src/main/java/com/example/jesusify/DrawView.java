@@ -2,6 +2,8 @@ package com.example.jesusify;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.opengl.GLSurfaceView;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -19,7 +21,7 @@ public class DrawView extends GLSurfaceView {
 
     public DrawView(Context context, AttributeSet attrs) {
         super(context, attrs);
-
+        setWillNotDraw(false);
     }
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
@@ -50,7 +52,8 @@ public class DrawView extends GLSurfaceView {
     }
     @Override
     protected void onDraw(Canvas canvas) {
-
+        canvas.drawRect(CameraClass.staticRect, new Paint());
+        Log.d("on draw", "in on draw");
     }
 
 

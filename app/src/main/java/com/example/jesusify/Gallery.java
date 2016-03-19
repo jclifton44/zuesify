@@ -57,6 +57,7 @@ public class Gallery extends Activity {
             @Override
             public void onClick(View v) {
                 File imageFile = new File(Gallery.hsv.getActiveImagePath());
+                imageFile.delete();
                 hsv.removeImage();
             }
         });

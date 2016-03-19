@@ -37,7 +37,9 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.hardware.camera2.*;
 import android.os.Environment;
+
 public class CameraClass {
+    static Rect staticRect = new Rect();
     static Canvas mCanvas;
 	private Camera mCamera = null;
     public static ImageView trackingImage;
@@ -155,9 +157,10 @@ public class CameraClass {
                 ImageView view;
                 //Log.d("found faces:", faces.length + "");getOrientation
                 //Log.d("cameraOrientation", mCameraOrientation + "");
+                Secondary_Activity.cameraSurface.postInvalidate();
                 if(faces.length > 0) {
 
-
+                    staticRect = faces[0].rect;
                     Integer xValue = (int)( (double)((faces[0].rect.centerX() + 1000) * (double)((double)mainActivity.getWindowManager().getDefaultDisplay().getHeight() / (double)2000)));
                     Integer yValue = (int) ( (double) ((faces[0].rect.centerY() + 1000) * (double)((double)mainActivity.getWindowManager().getDefaultDisplay().getWidth() / (double)2000)));
                     Log.d("" + xValue, "X");

@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Created by Jeremy Clifton on 3/13/2016.
@@ -50,6 +51,12 @@ public class GalleryHorizontalScrollView extends HorizontalScrollView {
     }
     public void removeImage() {
         galleryList.remove(ImageListIndex);
+        LinearLayout LinearPhotoFrame = (LinearLayout) findViewById(R.id.photoFrame);
+        ImageView deletedItem = (ImageView)findViewById(ImageListIndex);
+        if(deletedItem == null) {
+            Log.d("deleted Item", "is null");
+        }
+        LinearPhotoFrame.removeView(deletedItem);
         if(ImageListIndex > 0) {
             ImageListIndex--;
         }
@@ -67,12 +74,13 @@ public class GalleryHorizontalScrollView extends HorizontalScrollView {
                 Log.d(s, "File");
             }
         }
+        Collections.reverse(galleryList);
         Log.d(GalleryHorizontalScrollView.galleryList.size() + "", "Size");
         LinearLayout photoFrame = (LinearLayout) findViewById(R.id.photoFrame);
         Integer idContainer = -1;
         for( int i = 0; i < galleryList.size(); i++) {
             ImageView imageView = new ImageView(getContext());
-            imageView.setId(idContainer = View.generateViewId());
+            imageView.setId(idContainer = i);
             Bitmap image = BitmapFactory.decodeFile(Secondary_Activity.storagePath + "/DCIM/Camera/" + galleryList.get(i));
             photoFrame.addView(imageView);
             imageView.setImageBitmap(image);
