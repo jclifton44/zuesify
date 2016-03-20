@@ -4,6 +4,14 @@
         "source": "C:\\Android\\Projects\\cheese\\app\\src\\main\\res\\layout\\activity_secondary_.xml"
     },
     {
+        "merged": "C:\\Android\\Projects\\cheese\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_preview.xml",
+        "source": "C:\\Android\\Projects\\cheese\\app\\src\\main\\res\\layout\\activity_preview.xml"
+    },
+    {
+        "merged": "C:\\Android\\Projects\\cheese\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_gallery.xml",
+        "source": "C:\\Android\\Projects\\cheese\\app\\src\\main\\res\\layout\\activity_gallery.xml"
+    },
+    {
         "merged": "C:\\Android\\Projects\\cheese\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_main.xml",
         "source": "C:\\Android\\Projects\\cheese\\app\\src\\main\\res\\layout\\activity_main.xml"
     }

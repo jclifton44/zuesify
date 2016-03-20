@@ -10,11 +10,17 @@ import android.view.Menu;
 
 import com.example.jesusify.Secondary_Activity;
 
+import org.opencv.android.OpenCVLoader;
+
 public class MainActivity extends Activity {
 static MainActivity MA;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		if (!OpenCVLoader.initDebug()) {
+			// Handle initialization error
+		}
 		//ActionBar actionBar = getActionBar();
 		//actionBar.hide();
 		

@@ -51,6 +51,9 @@ import android.content.res.Resources;
 import android.content.res.Configuration;
 import android.opengl.GLES20;
 
+import org.opencv.android.CameraBridgeViewBase;
+import org.opencv.android.OpenCVLoader;
+
 public class Secondary_Activity extends Activity  {
     public static int sticker = R.drawable.doge_sticker;
     public static Boolean fileReady = false;
@@ -82,6 +85,10 @@ public class Secondary_Activity extends Activity  {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        if (!OpenCVLoader.initDebug()) {
+            // Handle initialization error
+        }
+        //System.loadLibrary("libopencv_java3");
         SA = this;
         Log.d("In Create","CREATE");
 		//ActionBar actionBar = getActionBar();
@@ -104,7 +111,7 @@ public class Secondary_Activity extends Activity  {
 
         //surface_view = new SurfaceView(getApplicationContext());
         cameraSurface = (DrawView)findViewById(R.id.surface_viewf1);
-
+        cameraSurface.loadHaarFiles();
         cameraHolder = cameraSurface.getHolder();
         //cameraHolder.addCallback(new SurfaceHolder.Callback() {
 
@@ -133,6 +140,7 @@ public class Secondary_Activity extends Activity  {
 
         selector1.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
+                DrawView.testVar = true;
                 sticker = R.drawable.doge_sticker;
             }
 

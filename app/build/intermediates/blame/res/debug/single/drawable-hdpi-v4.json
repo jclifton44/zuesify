@@ -4,8 +4,32 @@
         "source": "C:\\Android\\Projects\\cheese\\app\\src\\main\\res\\drawable-hdpi\\lightning.png"
     },
     {
+        "merged": "C:\\Android\\Projects\\cheese\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\back_arrow.png",
+        "source": "C:\\Android\\Projects\\cheese\\app\\src\\main\\res\\drawable-hdpi\\back_arrow.png"
+    },
+    {
+        "merged": "C:\\Android\\Projects\\cheese\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\grumpycat_sticker.png",
+        "source": "C:\\Android\\Projects\\cheese\\app\\src\\main\\res\\drawable-hdpi\\grumpycat_sticker.png"
+    },
+    {
+        "merged": "C:\\Android\\Projects\\cheese\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\zeus_sticker.png",
+        "source": "C:\\Android\\Projects\\cheese\\app\\src\\main\\res\\drawable-hdpi\\zeus_sticker.png"
+    },
+    {
+        "merged": "C:\\Android\\Projects\\cheese\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\nyancat_sticker.png",
+        "source": "C:\\Android\\Projects\\cheese\\app\\src\\main\\res\\drawable-hdpi\\nyancat_sticker.png"
+    },
+    {
         "merged": "C:\\Android\\Projects\\cheese\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ic_action_jesusify.png",
         "source": "C:\\Android\\Projects\\cheese\\app\\src\\main\\res\\drawable-hdpi\\ic_action_jesusify.png"
+    },
+    {
+        "merged": "C:\\Android\\Projects\\cheese\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\dog_sticker.png",
+        "source": "C:\\Android\\Projects\\cheese\\app\\src\\main\\res\\drawable-hdpi\\dog_sticker.png"
+    },
+    {
+        "merged": "C:\\Android\\Projects\\cheese\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\doge_sticker.png",
+        "source": "C:\\Android\\Projects\\cheese\\app\\src\\main\\res\\drawable-hdpi\\doge_sticker.png"
     },
     {
         "merged": "C:\\Android\\Projects\\cheese\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ic_launcher_logo.png",
@@ -16,8 +40,20 @@
         "source": "C:\\Android\\Projects\\cheese\\app\\src\\main\\res\\drawable-hdpi\\ic_action_flip.png"
     },
     {
+        "merged": "C:\\Android\\Projects\\cheese\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\share_icon.png",
+        "source": "C:\\Android\\Projects\\cheese\\app\\src\\main\\res\\drawable-hdpi\\share_icon.png"
+    },
+    {
         "merged": "C:\\Android\\Projects\\cheese\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ic_launcher_dot.png",
         "source": "C:\\Android\\Projects\\cheese\\app\\src\\main\\res\\drawable-hdpi\\ic_launcher_dot.png"
+    },
+    {
+        "merged": "C:\\Android\\Projects\\cheese\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\hera_sticker.png",
+        "source": "C:\\Android\\Projects\\cheese\\app\\src\\main\\res\\drawable-hdpi\\hera_sticker.png"
+    },
+    {
+        "merged": "C:\\Android\\Projects\\cheese\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\save_icon.png",
+        "source": "C:\\Android\\Projects\\cheese\\app\\src\\main\\res\\drawable-hdpi\\save_icon.png"
     },
     {
         "merged": "C:\\Android\\Projects\\cheese\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ic_launcher.png",

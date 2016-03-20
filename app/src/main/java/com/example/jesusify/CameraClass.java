@@ -81,12 +81,12 @@ public class CameraClass {
     public void takePhoto() {
         fileName = getFileName();
         mCamera.takePicture(shutter, picture_raw, picture_postview, picture_jpeg);
-        Log.d(storagePath + getFileName(), "FIleName");
+        //Log.d(storagePath + getFileName(), "FIleName");
         //Intent photoPreview = new Intent(Secondary_Activity.SA.getApplicationContext(), PhotoHandler.class);
         //photoPreview.putExtra("path", storagePath +  "/" +  "FILENAME.jpg");
         //Secondary_Activity.SA.startActivity(photoPreview);
     }
-    public static CameraClass getCustomCameraInstance(SurfaceHolder sh, Context c, int camOnClose) {
+    public static CameraClass getCustomCameraInstance(Camera.PreviewCallback callback, SurfaceHolder sh, Context c, int camOnClose) {
         cameraContext = c;
 
         Camera mcam;
@@ -117,6 +117,7 @@ public class CameraClass {
 
             }
         }
+        mcam.setPreviewCallback(callback);
         CameraClass returnC = new CameraClass(mcam,sh);
         returnC.startPreviewDetection();
         return returnC;
@@ -157,14 +158,14 @@ public class CameraClass {
                 ImageView view;
                 //Log.d("found faces:", faces.length + "");getOrientation
                 //Log.d("cameraOrientation", mCameraOrientation + "");
-                Secondary_Activity.cameraSurface.postInvalidate();
+                //Secondary_Activity.cameraSurface.postInvalidate();
                 if(faces.length > 0) {
 
                     staticRect = faces[0].rect;
                     Integer xValue = (int)( (double)((faces[0].rect.centerX() + 1000) * (double)((double)mainActivity.getWindowManager().getDefaultDisplay().getHeight() / (double)2000)));
                     Integer yValue = (int) ( (double) ((faces[0].rect.centerY() + 1000) * (double)((double)mainActivity.getWindowManager().getDefaultDisplay().getWidth() / (double)2000)));
-                    Log.d("" + xValue, "X");
-                    Log.d("" + yValue, "Y");
+                    //Log.d("" + xValue, "X");
+                    //Log.d("" + yValue, "Y");
                 }
                 while(0 < masks.size() ) {
 
@@ -188,11 +189,11 @@ public class CameraClass {
                     Integer yValue;
                     if(camID == findFrontFacingCamera()) {
                         yValue = -view.getLayoutParams().width / 2 + (int)- ((double) ((faces[i].rect.exactCenterX() + 1000) * (double) ((double) mainActivity.getWindowManager().getDefaultDisplay().getHeight() / (double) 2000))) + mainActivity.getWindowManager().getDefaultDisplay().getHeight();
-                        Log.d("front facing", "facing");
+                        //Log.d("front facing", "facing");
                     } else {
                         //Log.d("back facing", "back");
                         yValue = -view.getLayoutParams().width / 2 + (int)+ ((double) ((faces[i].rect.exactCenterX() + 1000) * (double) ((double) mainActivity.getWindowManager().getDefaultDisplay().getHeight() / (double) 2000)));
-                        Log.d("xVal", yValue + "");
+                        //Log.d("xVal", yValue + "");
 
                     }
                     xValue = -view.getLayoutParams().height / 2 + (int) -((double) ((faces[i].rect.exactCenterY() - 1000) * (double) ((double) mainActivity.getWindowManager().getDefaultDisplay().getWidth() / (double) 2000)));

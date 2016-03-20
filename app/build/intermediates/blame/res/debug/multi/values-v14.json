@@ -9,7 +9,7 @@
                     "startOffset": 55,
                     "endLine": 4,
                     "endColumn": 12,
-                    "endOffset": 201
+                    "endOffset": 204
                 },
                 "from": {
                     "file": "C:\\Android\\Projects\\cheese\\app\\src\\main\\res\\values-v14\\styles.xml",
@@ -19,7 +19,7 @@
                         "startOffset": 227,
                         "endLine": 9,
                         "endColumn": 12,
-                        "endOffset": 375
+                        "endOffset": 378
                     }
                 }
             }
