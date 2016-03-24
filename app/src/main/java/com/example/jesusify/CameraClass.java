@@ -17,6 +17,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ImageFormat;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
@@ -38,7 +39,7 @@ import android.widget.ImageView;
 import android.hardware.camera2.*;
 import android.os.Environment;
 
-public class CameraClass {
+public class CameraClass{
     static Rect staticRect = new Rect();
     static Canvas mCanvas;
 	private Camera mCamera = null;
@@ -65,9 +66,13 @@ public class CameraClass {
     static String fileName = "null.jpg";
     static String storagePath = Environment.getExternalStorageDirectory().toString();
     private static ArrayList<Face> faceArray = new ArrayList<>();
+    static Integer cameraWidth = 0;
+    static Integer cameraHeight = 0;
+    static Integer bitsPerPixel = 0;
 
     public CameraClass(Camera c, SurfaceHolder sh) {
         mCamera  = c;
+
         surface_holder = sh;
 //        ImageView button = (ImageView) findViewById(R.id.iv2);
 //        if(findFrontFacingCamera() < 0) {
@@ -75,6 +80,7 @@ public class CameraClass {
 //        }
 		// TODO Auto-generated constructor stub
 	}
+
     public void restartPreviewDisplay() {
         mCamera.startPreview();
     }
@@ -117,8 +123,19 @@ public class CameraClass {
 
             }
         }
-        mcam.setPreviewCallback(callback);
+        mcam.addCallbackBuffer(new byte[cameraHeight * cameraWidth * bitsPerPixel]);
+        mcam.setPreviewCallbackWithBuffer(callback);
+
+        mcam.setPreviewCallback(new Camera.PreviewCallback() {
+            @Override
+            public void onPreviewFrame(byte[] arr, Camera c) {
+                Log.d("onPreview","frame detected");
+                c.addCallbackBuffer(arr);
+            }
+        });
+
         CameraClass returnC = new CameraClass(mcam,sh);
+
         returnC.startPreviewDetection();
         return returnC;
     }
@@ -131,6 +148,13 @@ public class CameraClass {
         List<Camera.Size> cameraParameterList = cp.getSupportedPreviewSizes();
         cp.setPreviewSize(cameraParameterList.get(0).width, cameraParameterList.get(0).height);
         cp.setPictureSize(cameraParameterList.get(0).width, cameraParameterList.get(0).height);
+        bitsPerPixel = ImageFormat.getBitsPerPixel(cp.getPreviewFormat());
+        cameraHeight = cp.getPreviewSize().height;
+        cameraWidth = cp.getPreviewSize().width;
+
+        cp.setPreviewFrameRate(8);
+
+        //cp.setPreviewFormat(ImageFormat.RGB_565);
         c.setParameters(cp);
     }
     public void rotateCamera(int orientation, int rotation) {

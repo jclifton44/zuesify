@@ -111,7 +111,7 @@ public class Secondary_Activity extends Activity  {
 
         //surface_view = new SurfaceView(getApplicationContext());
         cameraSurface = (DrawView)findViewById(R.id.surface_viewf1);
-        cameraSurface.loadHaarFiles();
+        //cameraSurface.loadHaarFiles();
         cameraHolder = cameraSurface.getHolder();
         //cameraHolder.addCallback(new SurfaceHolder.Callback() {
 

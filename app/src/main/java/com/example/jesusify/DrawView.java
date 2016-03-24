@@ -17,16 +17,22 @@ import android.view.SurfaceView;
 import android.opengl.GLES20;
 import android.widget.ImageView;
 
+import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
 import org.opencv.core.MatOfRect;
+import org.opencv.core.Size;
 import org.opencv.imgcodecs.Imgcodecs;
+import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 
 /**
@@ -34,12 +40,18 @@ import java.io.InputStream;
  */
 public class DrawView extends GLSurfaceView implements Camera.PreviewCallback {
     static int camOnClose = -1;
+    CascadeClassifier eyeClassifier = null;
+    CascadeClassifier faceClassifier = null;
+
     public static CameraClass customCamera;
     public static String haar_frontal = "";
     public static String haar_eyes = "";
     public DrawView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setWillNotDraw(false);
+        loadHaarFiles();
+
+
     }
     public void loadHaarFiles() {
         InputStream in = getResources().openRawResource(R.raw.haarcascade_frontalface_default);
@@ -80,21 +92,34 @@ public class DrawView extends GLSurfaceView implements Camera.PreviewCallback {
         }
         haar_eyes = cascadeFile.getAbsolutePath();
 
+
     }
     public static boolean testVar = false;
     @Override
     public void onPreviewFrame(byte[] arr, Camera c) {
-        
-        CascadeClassifier eyeClassifier = new CascadeClassifier(haar_eyes);
-        CascadeClassifier faceClassifier = new CascadeClassifier(haar_frontal);
+        Log.d("onPreviewFrame", "Inbuffer");
+        if(eyeClassifier == null) {
+            eyeClassifier = new CascadeClassifier(haar_eyes);
+        }
+        if(faceClassifier == null) {
+            faceClassifier = new CascadeClassifier(haar_frontal);
+        }
         //if(faceClassifier.load("file:///android_asset/frontalface_default.xml")){
         //   Log.d("file", "loaded");
         //} else {
         //    Log.d("file", "Not loaded!");
         //}
-        Mat mat = Imgcodecs.imdecode(new MatOfByte(arr), Imgcodecs.CV_LOAD_IMAGE_UNCHANGED);
+        Mat mat = new Mat(getHeight(), getWidth(), CvType.CV_8UC1);
+        Mat mat_rgb = new Mat();
+        Mat mat_gray = new Mat();
+        mat.put(0,0,arr);
+
+        Imgproc.cvtColor(mat, mat_rgb, Imgproc.COLOR_YUV420p2RGB);
+        Imgproc.cvtColor(mat_rgb, mat_gray, Imgproc.COLOR_RGB2GRAY);
+
+
         MatOfRect faces = new MatOfRect();
-        faceClassifier.detectMultiScale(mat, faces);
+        faceClassifier.detectMultiScale(mat_gray, faces, 1.1, 2, 2, new Size(0,0), new Size());
 
         Log.d("Face detector results:", faces.toArray().length + " faces found");
     }
